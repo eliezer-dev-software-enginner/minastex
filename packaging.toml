@@ -1,0 +1,24 @@
+schema_version = 1
+
+[app]
+name = "Minastex Pedidos"
+version = "0.1.0"
+main_class = "minastex_pedidos.Main"
+icon_linux = "src/main/resources/icon.png"
+icon_windows = "src/main/resources/icon.ico"
+
+[build]
+mode = "distribution"
+tasks = ["installDist"]
+jar = "build/install/minastex-pedidos/lib/minastex-pedidos-{version}.jar"
+
+[javafx]
+version = "25.0.1"
+
+[runtime]
+modules = ["javafx.controls", "java.logging", "java.xml", "jdk.charsets"]
+exclude_natives = ["libjfxwebkit.so", "libjfxmedia.so", "jfxwebkit.dll"]
+
+[linux]
+package_name = "minastex-pedidos"
+menu_group = "Office"
