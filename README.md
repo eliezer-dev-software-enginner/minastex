@@ -54,3 +54,8 @@ próprio, conforme gerado pelo CLI. O PDF usa PDFBox e a fonte DejaVu Sans
 incorporada; a licença da fonte está em `src/main/resources/fonts/LICENSE.txt`.
 O ícone da janela usa `src/main/resources/icon.png`; o empacotamento usa esse
 PNG no Linux e `src/main/resources/icon.ico` no Windows.
+
+
+## Skill de UI para agentes
+
+O projeto inclui [`skills/megalodonte-native-ui/SKILL.md`](skills/megalodonte-native-ui/SKILL.md). O `AGENTS.md` instrui agentes a sincronizá-la e lê-la antes de alterar telas. Para fazê-la aparecer no menu `$` do Codex, instale o Megalodonte CLI (`pipx install --editable .` dentro de `framework/megalodonte-cli`) e execute `megalodonte skills install --project .`. Após atualizar o CLI, execute `megalodonte skills sync --project .` para trazer a versão atualizada; o vínculo instalado acompanhará o arquivo.

@@ -2,6 +2,7 @@ package minastex_pedidos;
 
 import disgust.icons.Feather;
 import megalodonte.base.Redirect;
+import megalodonte.base.UI;
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.theme.ThemeManager;
@@ -18,8 +19,6 @@ import megalodonte.props.ContainerProps;
 import megalodonte.props.RowProps;
 import megalodonte.props.TextProps;
 
-import java.awt.Desktop;
-import java.net.URI;
 
 /** Declarative navigation shell. Each menu destination owns its own screen. */
 public final class HomeScreen implements ScreenComponent {
@@ -38,14 +37,9 @@ public final class HomeScreen implements ScreenComponent {
                         Components.nav("Contas bancárias", Feather.CREDIT_CARD, () -> app.registry("Contas bancárias")),
                         Components.nav("Empresa", Feather.SETTINGS, app::company),
                         new SpacerVertical().fill(),
-                        new Clickable(new Text("Desenvolvido por EliezerDev")).onClick(() -> {
-                            //NÃO USAR DESSA FORMA, USAR O REDIRECT NATIVO DO MEGALODONTE (salvar nas skills)
-//                            try { Desktop.getDesktop().browse(URI.create("https://eliezer-dev.vercel.app/")); }
-//                            catch (Exception error) { AppController.alert("Não foi possível abrir o portfólio: " + error.getMessage()); }
-
-                            //REDIRECT NATIVO
-                            Redirect.to("https://eliezer-dev.vercel.app/", error->AppController.alert("Não foi possível abrir o portfólio: " + error.getMessage()));
-                        })
+                        new Clickable(new Text("Desenvolvido por EliezerDev")).onClick(() ->
+                                Redirect.to("https://eliezer-dev.vercel.app/", error ->
+                                        UI.runOnUi(() -> AppController.alert("Não foi possível abrir o portfólio: " + error.getMessage()))))
                 ),
                 new StateView<>(app.screen, screen -> screen.render())
         );
