@@ -2,6 +2,8 @@
 
 Aplicativo desktop offline criado pelo CLI Megalodonte em modo nativo. A janela
 usa o host Megalodonte e controles de ação e ícones de `disgust-components`.
+Layouts, tabelas, formulários e navegação usam componentes Megalodonte;
+campos e listas exibidas são vinculados a `State`.
 O crédito **Desenvolvido por EliezerDev** fica na barra lateral e abre o
 [portfólio do desenvolvedor](https://eliezer-dev.vercel.app/).
 

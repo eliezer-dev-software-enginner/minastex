@@ -2,11 +2,10 @@ package minastex_pedidos;
 
 import megalodonte.application.MegalodonteApp;
 import megalodonte.base.theme.ThemeManager;
-import megalodonte.theme.DefaultTheme;
 
 public final class Main {
     public static void main(String[] args) {
-        ThemeManager.setTheme(new DefaultTheme());
+        ThemeManager.setTheme(new MinastexTheme());
         MegalodonteApp.appName("Minastex Pedidos");
         MegalodonteApp.appIcon("/icon.png");
         MegalodonteApp.run(context -> {
