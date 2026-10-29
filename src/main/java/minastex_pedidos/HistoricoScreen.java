@@ -6,7 +6,6 @@ import megalodonte.base.state.State;
 import megalodonte.components.SimpleTable;
 import megalodonte.components.inputs.Input;
 import megalodonte.props.SimpleTableProps;
-import megalodonte.props.InputProps;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -36,7 +35,7 @@ final class HistoricoScreen implements ScreenComponent {
                 .column("Total", order -> Money.money(Store.total(order)));
         table.fromData(rows).onItemDoubleClick(app::order);
         return Components.page("Histórico de pedidos",
-                new Input(query, new InputProps().placeHolder("Pesquisar número ou cliente").fillWidth()),
+                disgust.io.Pack.searchInput(query, "Pesquisar número ou cliente", true, null),
                 Components.row(
                         Components.button("Abrir / editar", () -> selected(table, app::order)),
                         Components.button("Duplicar", () -> selected(table, old -> {

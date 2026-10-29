@@ -8,7 +8,6 @@ import megalodonte.components.DesktopDialogs;
 import megalodonte.components.SimpleTable;
 import megalodonte.components.inputs.Input;
 import megalodonte.props.SimpleTableProps;
-import megalodonte.props.InputProps;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -54,7 +53,7 @@ final class CadastroScreen implements ScreenComponent {
                 .column("Conta", x -> ((Store.Account) x).number);
         table.fromData(rows);
         return Components.page(kind,
-                new Input(query, new InputProps().placeHolder("Pesquisar").fillWidth()),
+                disgust.io.Pack.searchInput(query, "Pesquisar", true, null),
                 Components.row(
                         Components.button("+ Cadastrar", () -> edit(null)),
                         Components.button("Editar", () -> { if (table.getSelectedItem() != null) edit(table.getSelectedItem()); }),
@@ -132,7 +131,7 @@ final class CadastroScreen implements ScreenComponent {
             email = State.of(c.email); notes = State.of(c.notes);
         }
         Component render() { return Components.form("Cliente", Components.field("Nome/razão social", name),
-                Components.field("CPF/CNPJ", document), Components.field("Telefone", phone),
+                Components.field("CPF/CNPJ", document, minastex_pedidos.data.InputType.CPF_CNPJ), Components.field("Telefone", phone, minastex_pedidos.data.InputType.PHONE),
                 Components.field("E-mail", email), Components.field("Observações", notes)); }
     }
 
@@ -140,7 +139,7 @@ final class CadastroScreen implements ScreenComponent {
         final State<String> name, price;
         MaterialForm(Store.Material m) { name = State.of(m.name); price = State.of(m.price.toPlainString()); }
         Component render() { return Components.form("Acabamento", Components.field("Nome", name),
-                Components.field("Preço por m²", price)); }
+                Components.field("Preço por m²", price, minastex_pedidos.data.InputType.DECIMAL_FIXED_TWO)); }
     }
 
     private static final class AccountForm {
@@ -153,6 +152,6 @@ final class CadastroScreen implements ScreenComponent {
         Component render() { return Components.form("Conta bancária", Components.field("Identificação", label),
                 Components.field("Banco", bank), Components.field("Agência", agency),
                 Components.field("Conta", number), Components.field("Favorecido", beneficiary),
-                Components.field("CPF/CNPJ", document), Components.field("Chave PIX", pix)); }
+                Components.field("CPF/CNPJ", document, minastex_pedidos.data.InputType.CPF_CNPJ), Components.field("Chave PIX", pix)); }
     }
 }

@@ -30,13 +30,13 @@ final class EmpresaScreen implements ScreenComponent {
     @Override public Component render() {
         return Components.page("Configurações da empresa",
                 Components.row(Components.field("Nome", name), Components.field("Razão social", legal)),
-                Components.row(Components.field("CNPJ", document), Components.field("Telefones", phone)),
+                Components.row(Components.field("CNPJ", document, minastex_pedidos.data.InputType.CNPJ), Components.field("Telefones", phone)),
                 Components.row(Components.field("E-mail", email), Components.field("Site", website)),
                 Components.field("Endereço", address),
                 Components.row(Components.field("Caminho da logomarca", logo),
                         Components.button("Selecionar imagem", () -> FilePicker.chooseImage()
                                 .ifPresent(chosen -> logo.set(java.nio.file.Path.of(chosen).toString())))),
-                Components.compactField("IPI padrão (%)", ipi, 150),
+                Components.compactField("IPI padrão (%)", ipi, 150, minastex_pedidos.data.InputType.DECIMAL_FIXED_TWO),
                 Components.button("Salvar configurações", this::save));
     }
 

@@ -1,18 +1,18 @@
 package minastex_pedidos;
 
 import disgust.io.ButtonsPack;
+import disgust.io.Pack;
+import minastex_pedidos.data.InputType;
 import megalodonte.base.components.Component;
 import megalodonte.base.state.State;
 import megalodonte.base.theme.ThemeManager;
 import megalodonte.components.Scroll;
 import megalodonte.components.Text;
-import megalodonte.components.inputs.Input;
 import megalodonte.components.layout_components.Column;
 import megalodonte.components.layout_components.Row;
 import megalodonte.props.ColumnProps;
 import megalodonte.props.RowProps;
 import megalodonte.props.TextProps;
-import megalodonte.props.InputProps;
 
 /** Stateless factories for the application's shared visual vocabulary. */
 final class Components {
@@ -38,15 +38,37 @@ final class Components {
     }
 
     static Component field(String label, State<String> value) {
-        return new Column(new ColumnProps().spacingOf(4).fillWidth()).children(
-                new Text(label), new Input(value, new InputProps().placeHolder(label).fillWidth())
-        );
+        return field(label, value, InputType.TEXT);
+    }
+
+    static Component field(String label, State<String> value, InputType type) {
+        if (type == null) throw new IllegalArgumentException("Tipo de entrada obrigatório");
+        return switch (type) {
+            case CPF -> disgust.io.br.Pack.InputColumnCpf(label, value);
+            case CNPJ -> disgust.io.br.Pack.InputColumnCnpjAlfanumerico(label, value);
+            case CPF_CNPJ -> disgust.io.br.Pack.InputColumnCpfCnpj(label, value);
+            case PHONE -> disgust.io.br.Pack.InputColumnPhone(label, value);
+            case CEP -> disgust.io.br.Pack.InputColumnCep(label, value);
+            case CURRENCY -> disgust.io.br.Pack.InputColumnCurrency(label, value);
+            case INTEGER -> Pack.InputColumnNumeric(label, value, label);
+            case DECIMAL -> Pack.InputColumnDecimal(label, value, label);
+            case DECIMAL_FIXED_TWO -> Pack.InputColumnDecimalFixedTwo(label, value, label);
+            case DECIMAL_FIXED_THREE -> Pack.InputColumnDecimalFixedThree(label, value, label);
+            case TEXT -> textField(label, value);
+        };
+    }
+
+    private static Component textField(String label, State<String> value) {
+        return Pack.InputColumn(label, value, label);
     }
 
     static Component compactField(String label, State<String> value, int width) {
-        return new Column(new ColumnProps().spacingOf(4)).children(
-                new Text(label), new Input(value, new InputProps().placeHolder(label).width(width))
-        );
+        return compactField(label, value, width, InputType.TEXT);
+    }
+
+    static Component compactField(String label, State<String> value, int width, InputType type) {
+        if (type != InputType.TEXT) return field(label, value, type);
+        return Pack.InputColumn(label, value, label, width);
     }
 
     static Component orderGroup(PedidoViewModel.GroupViewModel group) {
@@ -56,7 +78,7 @@ final class Components {
                                 .items(group.order.app.store.data.materials.stream()
                                         .filter(material -> material.active || material.id.equals(group.data.materialId)).toList())
                                 .value(group.material),
-                        compactField("Preço/m²", group.price, 130),
+                        compactField("Preço/m²", group.price, 130, InputType.DECIMAL_FIXED_TWO),
                         button("Remover grupo", () -> group.order.removeGroup(group))),
                 row(new Text("Comprimento (m)"), new Text("Largura (m)"),
                         new Text("Qtd."), new Text("Metragem"), new Text("Valor")),
@@ -67,9 +89,9 @@ final class Components {
     }
 
     static Component orderItem(PedidoViewModel.ItemViewModel item) {
-        return row(compactField("Comprimento (m)", item.length, 115),
-                compactField("Largura (m)", item.width, 115),
-                compactField("Qtd.", item.quantity, 75),
+        return row(compactField("Comprimento (m)", item.length, 115, InputType.DECIMAL_FIXED_THREE),
+                compactField("Largura (m)", item.width, 115, InputType.DECIMAL_FIXED_THREE),
+                compactField("Qtd.", item.quantity, 75, InputType.INTEGER),
                 new Text(item.area), new Text(item.value),
                 button("Excluir", () -> item.group.removeItem(item)));
     }
