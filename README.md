@@ -59,3 +59,4 @@ PNG no Linux e `src/main/resources/icon.ico` no Windows.
 ## Skill de UI para agentes
 
 O projeto inclui [`skills/megalodonte-native-ui/SKILL.md`](skills/megalodonte-native-ui/SKILL.md). O `AGENTS.md` instrui agentes a sincronizá-la e lê-la antes de alterar telas. Para fazê-la aparecer no menu `$` do Codex, instale o Megalodonte CLI (`pipx install --editable .` dentro de `framework/megalodonte-cli`) e execute `megalodonte skills install --project .`. Após atualizar o CLI, execute `megalodonte skills sync --project .` para trazer a versão atualizada; o vínculo instalado acompanhará o arquivo.
+# minastex
