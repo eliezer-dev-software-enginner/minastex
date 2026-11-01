@@ -1,5 +1,7 @@
 # Minastex Pedidos
 
+![Identidade visual de Minastex Pedidos](src/main/resources/assets/minastex-logo.png)
+
 Aplicativo desktop offline criado pelo CLI Megalodonte em modo nativo. A janela
 usa o host Megalodonte e controles de ação e ícones de `disgust-components`.
 Layouts, tabelas, formulários e navegação usam componentes Megalodonte;
