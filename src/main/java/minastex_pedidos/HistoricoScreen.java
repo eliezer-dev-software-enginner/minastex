@@ -2,6 +2,7 @@ package minastex_pedidos;
 
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
+import megalodonte.base.components.Ref;
 import megalodonte.base.state.State;
 import megalodonte.components.SimpleTable;
 import megalodonte.components.inputs.Input;
@@ -14,6 +15,7 @@ import java.util.List;
 final class HistoricoScreen implements ScreenComponent {
     private final State<String> query = State.of("");
     private final State<List<Store.Order>> rows = State.of(List.of());
+    private final Ref<SimpleTable<Store.Order>> tableRef = new Ref<>();
     private final AppController app;
 
     HistoricoScreen(AppController app) {
@@ -49,8 +51,9 @@ final class HistoricoScreen implements ScreenComponent {
                             if (AppController.confirm("Excluir pedido Nº " + order.number + "?")) {
                                 app.store.data.orders.remove(order); app.save(); refresh();
                             }
-                        }))
-                ), table, table.paginationControls());
+                        })),
+                        Components.button("Limpar seleção", () -> tableRef.current().clearSelection())
+                ), table.ref(tableRef), table.paginationControls());
     }
 
     private static void selected(SimpleTable<Store.Order> table, java.util.function.Consumer<Store.Order> action) {

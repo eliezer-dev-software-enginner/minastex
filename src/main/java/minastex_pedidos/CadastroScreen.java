@@ -3,6 +3,7 @@ package minastex_pedidos;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
+import megalodonte.base.components.Ref;
 import megalodonte.base.state.State;
 import megalodonte.components.DesktopDialogs;
 import megalodonte.components.SimpleTable;
@@ -16,6 +17,7 @@ final class CadastroScreen implements ScreenComponent {
     private static final ObjectMapper JSON = new ObjectMapper();
     private final State<String> query = State.of("");
     private final State<List<Object>> rows = State.of(List.of());
+    private final Ref<SimpleTable<Object>> tableRef = new Ref<>();
     private final AppController app;
     private final String kind;
 
@@ -58,8 +60,9 @@ final class CadastroScreen implements ScreenComponent {
                         Components.button("+ Cadastrar", () -> edit(null)),
                         Components.button("Editar", () -> { if (table.getSelectedItem() != null) edit(table.getSelectedItem()); }),
                         Components.button("Ativar/desativar", () -> toggle(table.getSelectedItem())),
-                        Components.button("Excluir", () -> delete(table.getSelectedItem()))
-                ), table, table.paginationControls());
+                        Components.button("Excluir", () -> delete(table.getSelectedItem())),
+                        Components.button("Limpar seleção", () -> tableRef.current().clearSelection())
+                ), table.ref(tableRef), table.paginationControls());
     }
 
     private void edit(Object existing) {
