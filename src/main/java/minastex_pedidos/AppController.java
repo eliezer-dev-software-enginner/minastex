@@ -2,10 +2,12 @@ package minastex_pedidos;
 
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.state.State;
+import megalodonte.base.UI;
 import megalodonte.components.DesktopDialogs;
 import megalodonte.components.FilePicker;
 
 import java.awt.Desktop;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -41,17 +43,51 @@ final class AppController {
     void export(Store.Order order) {
         FilePicker.saveFile( "Exportar pedido", "pedido-minastex-" + order.number + ".pdf", "PDF", List.of("*.pdf"))
                 .ifPresent(file -> {
-                    try { PdfExporter.export(order, store.data.company, file); alert("PDF salvo em " + file); }
-                    catch (Exception error) { alert("Falha no PDF: " + error.getMessage()); }
+                    Store.Order snapshot = Store.copy(order);
+                    Store.Company company = Store.copy(store.data.company);
+                    Thread.ofVirtual().name("minastex-export-pdf").start(() -> {
+                        try {
+                            PdfExporter.export(snapshot, company, file);
+                            System.out.println("PDF salvo em " + file);
+                            UI.runOnUi(() -> alert("PDF salvo em " + file));
+                        } catch (Exception error) {
+                            error.printStackTrace();
+                            UI.runOnUi(() -> alert("Falha no PDF: " + error.getMessage()));
+                        }
+                    });
                 });
     }
 
     void preview(Store.Order order) {
-        try {
-            Path file = Files.createTempFile("minastex-" + order.number + "-", ".pdf");
-            PdfExporter.export(order, store.data.company, file);
+        Store.Order snapshot = Store.copy(order);
+        Store.Company company = Store.copy(store.data.company);
+        Thread.ofVirtual().name("minastex-preview-pdf").start(() -> {
+            try {
+                Path file = Files.createTempFile("minastex-" + snapshot.number + "-", ".pdf");
+                PdfExporter.export(snapshot, company, file);
+                openPdf(file);
+                System.out.println("Prévia do PDF aberta: " + file);
+            } catch (Exception error) {
+                error.printStackTrace();
+                UI.runOnUi(() -> alert("Falha na prévia: " + error.getMessage()));
+            }
+        });
+    }
+
+    private static void openPdf(Path file) throws IOException {
+        if (System.getProperty("os.name", "").toLowerCase(java.util.Locale.ROOT).contains("linux")) {
+            Process opener = new ProcessBuilder("xdg-open", file.toString())
+                    .redirectErrorStream(true).start();
+            try {
+                if (opener.waitFor(2, java.util.concurrent.TimeUnit.SECONDS) && opener.exitValue() != 0)
+                    throw new IOException("Não foi possível abrir o visualizador de PDF (xdg-open: " + opener.exitValue() + "). Arquivo: " + file);
+            } catch (InterruptedException error) {
+                Thread.currentThread().interrupt();
+                throw new IOException("A abertura do PDF foi interrompida. Arquivo: " + file, error);
+            }
+        } else if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
             Desktop.getDesktop().open(file.toFile());
-        } catch (Exception error) { alert("Falha na prévia: " + error.getMessage()); }
+        } else throw new IOException("Nenhum visualizador de PDF disponível. Arquivo: " + file);
     }
 
     static void alert(String message) { DesktopDialogs.information(message); }

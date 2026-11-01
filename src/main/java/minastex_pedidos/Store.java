@@ -97,6 +97,7 @@ public final class Store {
     }
     public static BigDecimal total(Order order) { return subtotal(order).add(ipi(order)); }
     public static Order copy(Order order) { return JSON.convertValue(order, Order.class); }
+    public static Company copy(Company company) { return JSON.convertValue(company, Company.class); }
 
     public static final class Data {
         public int nextOrderNumber = 1;
