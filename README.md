@@ -30,6 +30,10 @@ a alíquota de IPI e os dados bancários usados na ocasião. Alterações poster
 nos cadastros não recalculam pedidos antigos. Clientes e acabamentos usados em
 pedidos podem ser desativados, mas não excluídos.
 
+As listas de **Histórico**, **Clientes**, **Acabamentos** e **Contas bancárias**
+mostram até 10 registros por página. Use **Anterior**, **Próxima** ou digite o
+número da página; a pesquisa filtra o conjunto completo antes da paginação.
+
 O banco é um arquivo JSON local. Faça cópias de segurança dele. Para usar outro
 arquivo, execute com `-Dminastex.data=/caminho/dados.json` na JVM.
 

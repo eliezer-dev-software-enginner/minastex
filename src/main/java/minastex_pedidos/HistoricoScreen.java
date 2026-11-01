@@ -33,7 +33,7 @@ final class HistoricoScreen implements ScreenComponent {
         table.header().columns().column("Nº", order -> Integer.toString(order.number))
                 .column("Cliente", order -> order.clientName).column("Data", order -> order.date)
                 .column("Total", order -> Money.money(Store.total(order)));
-        table.fromData(rows).onItemDoubleClick(app::order);
+        table.paginate(10).fromData(rows).onItemDoubleClick(app::order);
         return Components.page("Histórico de pedidos",
                 disgust.io.Pack.searchInput(query, "Pesquisar número ou cliente", true, null),
                 Components.row(
@@ -50,7 +50,7 @@ final class HistoricoScreen implements ScreenComponent {
                                 app.store.data.orders.remove(order); app.save(); refresh();
                             }
                         }))
-                ), table);
+                ), table, table.paginationControls());
     }
 
     private static void selected(SimpleTable<Store.Order> table, java.util.function.Consumer<Store.Order> action) {

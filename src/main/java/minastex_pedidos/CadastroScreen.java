@@ -51,7 +51,7 @@ final class CadastroScreen implements ScreenComponent {
                 .column("Banco", x -> ((Store.Account) x).bank)
                 .column("Agência", x -> ((Store.Account) x).agency)
                 .column("Conta", x -> ((Store.Account) x).number);
-        table.fromData(rows);
+        table.paginate(10).fromData(rows);
         return Components.page(kind,
                 disgust.io.Pack.searchInput(query, "Pesquisar", true, null),
                 Components.row(
@@ -59,7 +59,7 @@ final class CadastroScreen implements ScreenComponent {
                         Components.button("Editar", () -> { if (table.getSelectedItem() != null) edit(table.getSelectedItem()); }),
                         Components.button("Ativar/desativar", () -> toggle(table.getSelectedItem())),
                         Components.button("Excluir", () -> delete(table.getSelectedItem()))
-                ), table);
+                ), table, table.paginationControls());
     }
 
     private void edit(Object existing) {
