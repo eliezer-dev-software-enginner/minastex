@@ -9,9 +9,11 @@ Use esta skill em tarefas de manutenção e evolução de software. Preserve o o
 
 Quando um pedido acumula correções e complementos, mantenha uma lista curta dos resultados exigidos e confira cada um antes de encerrar. Uma resposta anterior ou um commit não prova que a etapa atual foi concluída; não deixe requisitos implícitos, como a aplicação já aberta ou o artefato consumido, fora da validação.
 
+Quando o usuário pedir uma quantidade de itens ou funcionalidades do TODO, escolha e conclua essa quantidade de itens distintos do TODO. Não apresente operações ou variações de um único componente como vários itens concluídos, a menos que o próprio TODO os trate assim. Se a implementação for parcial, mantenha o item aberto e informe o que falta; não encerre antecipadamente um pedido de continuidade enquanto houver trabalho autorizado viável.
+
 ## Uso eficiente de contexto
 
-Quando o plugin context-mode estiver disponível, use suas ferramentas de execução e busca para analisar saídas extensas, logs, testes, documentação e dados, trazendo ao contexto somente os trechos e resultados necessários. Para várias consultas ao mesmo material, prefira indexar e pesquisar de forma direcionada. Respeite as permissões da sessão e evite indexar segredos ou dados privados sem necessidade; não execute ações externas não autorizadas. Não afirme que usou o plugin ou obteve economia medida sem confirmação. Se as ferramentas não estiverem disponíveis, use buscas específicas, limite saídas e processe dados localmente, sem perder diagnósticos ou verificações relevantes. Economia de tokens não reduz a cobertura necessária nem substitui a documentação do trabalho.
+Quando o context-mode estiver disponível, use-o quando filtrar, resumir ou pesquisar saídas extensas realmente reduzir o conteúdo trazido ao contexto. Para resultados pequenos ou trechos exatos necessários à edição, prefira leitura direta e concisa, respeitando as instruções das ferramentas da sessão. Agrupe consultas relacionadas quando isso reduzir chamadas e resultados; não indexe nem invoque o plugin automaticamente para toda operação. Respeite as permissões, evite indexar segredos e não afirme economia de tokens sem evidência confiável. Se o plugin não estiver disponível, limite as saídas e processe dados localmente. A economia não reduz as verificações necessárias nem substitui a documentação.
 
 ## Investigar o alvo real
 
@@ -31,9 +33,13 @@ Teste apenas o projeto alterado e o menor percurso que demonstra o requisito: en
 
 Uma compilação bem-sucedida é evidência de compilação, não de comportamento. Quando o teste real não for possível, declare exatamente o que foi validado e o que resta. Não diga “tudo aparece”, “está funcionando” ou “foi entregue” sem verificar a instância, o projeto e o resultado correspondentes. Se houver falha, explique a causa encontrada e continue o trabalho autorizado em vez de encerrar com uma correção parcial.
 
+Confira se os testes relevantes realmente executaram: testes ignorados, abortados ou considerados atualizados não comprovam o comportamento. Quando a entrada do teste inclui arquivos externos que a ferramenta de build pode não rastrear, force a execução pertinente após modificá-los. Se faltar ambiente gráfico, preserve o teste e relate a limitação em vez de alegar validação visual; não crie capturas de tela sem pedido explícito.
+
 ## Documentação contínua do projeto
 
 Em toda mudança de software, atualize proativamente a documentação pertinente no próprio projeto, sem esperar solicitação: registre o estado real, as decisões e trade-offs, a forma de uso, os próximos passos e quaisquer limitações em `docs/CONTEXT.md`, `docs/DECISIONS.md` e `docs/TODO.md` quando esses arquivos fizerem parte da convenção do projeto. Atualize também o README ou a documentação pública quando o uso mudar. Preserve o conteúdo existente, evite repetir informações sem necessidade e nunca descreva uma proposta ou implementação parcial como concluída.
+
+Se o projeto mantiver uma estimativa de progresso, revise-a em cada iteração conforme os critérios documentados; não aumente o percentual só pela quantidade de código ou de operações adicionadas. Corrija também trechos antigos do TODO e do contexto que passem a contradizer o estado implementado.
 
 ## Tornar o recurso utilizável e entregar
 
