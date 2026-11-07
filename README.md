@@ -59,7 +59,10 @@ O projeto foi registrado como `local_only` em `workspace.toml` e possui Git
 próprio, conforme gerado pelo CLI. O PDF usa PDFBox e a fonte DejaVu Sans
 incorporada; a licença da fonte está em `src/main/resources/fonts/LICENSE.txt`.
 O ícone da janela usa `src/main/resources/icon.png`; o empacotamento usa esse
-PNG no Linux e `src/main/resources/icon.ico` no Windows.
+PNG no Linux e `src/main/resources/icon.ico` no Windows. No Linux, a aplicação
+usa um host JavaFX exclusivo para que o dock associe a janela ao ícone correto;
+o framework registra a entrada de desenvolvimento com um caminho de ícone baseado
+no conteúdo, evitando reaproveitar uma imagem antiga após sua atualização.
 
 
 ## Skill de UI para agentes
