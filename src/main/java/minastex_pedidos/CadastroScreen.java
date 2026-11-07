@@ -7,8 +7,10 @@ import megalodonte.base.components.Ref;
 import megalodonte.base.state.State;
 import megalodonte.components.DesktopDialogs;
 import megalodonte.components.SimpleTable;
-import megalodonte.components.inputs.Input;
 import megalodonte.props.SimpleTableProps;
+import minastex_pedidos.forms.AccountForm;
+import minastex_pedidos.forms.ClientForm;
+import minastex_pedidos.forms.MaterialForm;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -125,36 +127,5 @@ final class CadastroScreen implements ScreenComponent {
 
     private static <T> void replace(List<T> values, T old, T next) {
         if (old == null) values.add(next); else values.set(values.indexOf(old), next);
-    }
-
-    private static final class ClientForm {
-        final State<String> name, document, phone, email, notes;
-        ClientForm(Store.Client c) {
-            name = State.of(c.name); document = State.of(c.document); phone = State.of(c.phone);
-            email = State.of(c.email); notes = State.of(c.notes);
-        }
-        Component render() { return Components.form("Cliente", Components.field("Nome/razão social", name),
-                Components.field("CPF/CNPJ", document, minastex_pedidos.data.InputType.CPF_CNPJ), Components.field("Telefone", phone, minastex_pedidos.data.InputType.PHONE),
-                Components.field("E-mail", email), Components.field("Observações", notes)); }
-    }
-
-    private static final class MaterialForm {
-        final State<String> name, price;
-        MaterialForm(Store.Material m) { name = State.of(m.name); price = State.of(m.price.toPlainString()); }
-        Component render() { return Components.form("Acabamento", Components.field("Nome", name),
-                Components.field("Preço por m²", price, minastex_pedidos.data.InputType.DECIMAL_FIXED_TWO)); }
-    }
-
-    private static final class AccountForm {
-        final State<String> label, bank, agency, number, beneficiary, document, pix;
-        AccountForm(Store.Account a) {
-            label = State.of(a.label); bank = State.of(a.bank); agency = State.of(a.agency);
-            number = State.of(a.number); beneficiary = State.of(a.beneficiary);
-            document = State.of(a.document); pix = State.of(a.pix);
-        }
-        Component render() { return Components.form("Conta bancária", Components.field("Identificação", label),
-                Components.field("Banco", bank), Components.field("Agência", agency),
-                Components.field("Conta", number), Components.field("Favorecido", beneficiary),
-                Components.field("CPF/CNPJ", document, minastex_pedidos.data.InputType.CPF_CNPJ), Components.field("Chave PIX", pix)); }
     }
 }

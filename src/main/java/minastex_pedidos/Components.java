@@ -15,7 +15,7 @@ import megalodonte.props.RowProps;
 import megalodonte.props.TextProps;
 
 /** Stateless factories for the application's shared visual vocabulary. */
-final class Components {
+public final class Components {
     private Components() {}
 
     static Component button(String title, Runnable action) {
@@ -37,11 +37,11 @@ final class Components {
         )).fillAvailableWidth().fillAvailableHeight();
     }
 
-    static Component field(String label, State<String> value) {
+    public static Component field(String label, State<String> value) {
         return field(label, value, InputType.TEXT);
     }
 
-    static Component field(String label, State<String> value, InputType type) {
+    public static Component field(String label, State<String> value, InputType type) {
         if (type == null) throw new IllegalArgumentException("Tipo de entrada obrigatório");
         return switch (type) {
             case CPF -> disgust.io.br.Pack.InputColumnCpf(label, value);
@@ -96,7 +96,7 @@ final class Components {
                 button("Excluir", () -> item.group.removeItem(item)));
     }
 
-    static Component form(String title, Component... fields) {
+    public static Component form(String title, Component... fields) {
         return new Column(new ColumnProps().spacingOf(9).paddingAll(18)).children(
                 new Text(title, new TextProps().bold()),
                 new Column(new ColumnProps().spacingOf(9)).children(fields));
