@@ -1,11 +1,15 @@
 package minastex_pedidos;
 
+import disgust.icons.Feather;
+import disgust.io.ButtonsPack;
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.state.State;
 import megalodonte.components.FilePicker;
+import megalodonte.props.ButtonVariant;
 
 import java.math.BigDecimal;
+import java.nio.file.Path;
 
 final class EmpresaScreen implements ScreenComponent {
     private final State<String> name;
@@ -33,11 +37,16 @@ final class EmpresaScreen implements ScreenComponent {
                 Components.row(Components.field("CNPJ", document, minastex_pedidos.data.InputType.CNPJ), Components.field("Telefones", phone)),
                 Components.row(Components.field("E-mail", email), Components.field("Site", website)),
                 Components.field("Endereço", address),
-                Components.row(Components.field("Caminho da logomarca", logo),
-                        Components.button("Selecionar imagem", () -> FilePicker.chooseImage()
-                                .ifPresent(chosen -> logo.set(java.nio.file.Path.of(chosen).toString())))),
+                Components.row(
+                        Components.field("Caminho da logomarca", logo),
+                        ButtonsPack.OutlinedButtonWithIconStart("Selecionar imagem", ButtonVariant.PRIMARY, Feather.IMAGE,
+                                () -> FilePicker.chooseImage()
+                                        .ifPresent(chosen -> logo.set(Path.of(chosen).toString()))
+                        )
+                ),
                 Components.compactField("IPI padrão (%)", ipi, 150, minastex_pedidos.data.InputType.DECIMAL_FIXED_TWO),
-                Components.button("Salvar configurações", this::save));
+                ButtonsPack.ContainedButtonWithIconStart("Salvar configurações", ButtonVariant.SUCCESS, Feather.SAVE, this::save)
+        );
     }
 
     private void save() {

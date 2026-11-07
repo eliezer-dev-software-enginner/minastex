@@ -1,5 +1,7 @@
 package minastex_pedidos;
 
+import disgust.icons.Feather;
+import disgust.io.ButtonsPack;
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.theme.ThemeManager;
@@ -9,6 +11,7 @@ import megalodonte.components.LineHorizontal;
 import megalodonte.components.Select;
 import megalodonte.components.Text;
 import megalodonte.components.layout_components.Column;
+import megalodonte.props.ButtonVariant;
 import megalodonte.props.ColumnProps;
 import megalodonte.props.DatePickerProps;
 import java.util.Locale;
@@ -42,9 +45,10 @@ final class PedidoScreen implements ScreenComponent {
                         new Select<Store.Account>().items(model.app.store.data.accounts).value(model.account),
                         disgust.io.Pack.TextAreaColumn("Dados bancários", model.bankText, "Dados bancários"))),
                 Components.row(
-                        Components.button("Salvar pedido", model::save),
+                        ButtonsPack.ContainedButtonWithIconStart("Salvar pedido", ButtonVariant.SUCCESS, Feather.SAVE, model::save),
                         Components.button("Visualizar PDF", model::preview),
-                        Components.button("Exportar PDF", model::export),
-                        Components.button("Cancelar", model.app::history)));
+                        ButtonsPack.ContainedButtonWithIconStart("Exportar PDF", ButtonVariant.PRIMARY, Feather.FILE, model::export),
+                        ButtonsPack.ContainedButtonWithIconStart("Cancelar", ButtonVariant.DANGER, Feather.X, model.app::history)
+                ));
     }
 }

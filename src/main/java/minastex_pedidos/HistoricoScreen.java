@@ -1,11 +1,14 @@
 package minastex_pedidos;
 
+import disgust.icons.Feather;
+import disgust.io.ButtonsPack;
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.components.Ref;
 import megalodonte.base.state.State;
 import megalodonte.components.SimpleTable;
 import megalodonte.components.inputs.Input;
+import megalodonte.props.ButtonVariant;
 import megalodonte.props.SimpleTableProps;
 
 import java.time.LocalDate;
@@ -30,7 +33,8 @@ final class HistoricoScreen implements ScreenComponent {
                 .sorted(Comparator.comparingInt((Store.Order order) -> order.number).reversed()).toList());
     }
 
-    @Override public Component render() {
+    @Override
+    public Component render() {
         SimpleTable<Store.Order> table = new SimpleTable<>(new SimpleTableProps().maxHeight(500));
         table.header().columns().column("Nº", order -> Integer.toString(order.number))
                 .column("Cliente", order -> order.clientName).column("Data", order -> order.date)
@@ -40,19 +44,23 @@ final class HistoricoScreen implements ScreenComponent {
                 disgust.io.Pack.searchInput(query, "Pesquisar número ou cliente", true, null),
                 Components.row(
                         Components.button("Abrir / editar", () -> selected(table, app::order)),
-                        Components.button("Duplicar", () -> selected(table, old -> {
+                        ButtonsPack.ContainedButtonWithIconStart("Duplicar", ButtonVariant.PRIMARY, Feather.COPY, () -> selected(table, old -> {
                             Store.Order copy = Store.copy(old);
-                            copy.id = Store.id(); copy.number = app.store.nextNumber();
-                            copy.date = LocalDate.now().toString(); app.order(copy);
+                            copy.id = Store.id();
+                            copy.number = app.store.nextNumber();
+                            copy.date = LocalDate.now().toString();
+                            app.order(copy);
                         })),
                         Components.button("Visualizar PDF", () -> selected(table, app::preview)),
-                        Components.button("Exportar PDF", () -> selected(table, app::export)),
-                        Components.button("Excluir", () -> selected(table, order -> {
+                        ButtonsPack.ContainedButtonWithIconStart("Exportar PDF", ButtonVariant.PRIMARY, Feather.FILE, () -> selected(table, app::export)),
+                        ButtonsPack.ContainedButtonWithIconStart("Excluir", ButtonVariant.DANGER, Feather.TRASH, () -> selected(table, order -> {
                             if (AppController.confirm("Excluir pedido Nº " + order.number + "?")) {
-                                app.store.data.orders.remove(order); app.save(); refresh();
+                                app.store.data.orders.remove(order);
+                                app.save();
+                                refresh();
                             }
                         })),
-                        Components.button("Limpar seleção", () -> tableRef.current().clearSelection())
+                        ButtonsPack.OutlinedButton("Limpar seleção", ButtonVariant.SECONDARY, () -> tableRef.current().clearSelection())
                 ), table.ref(tableRef), table.paginationControls());
     }
 

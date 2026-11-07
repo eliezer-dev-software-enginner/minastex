@@ -1,12 +1,16 @@
 package minastex_pedidos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import disgust.icons.Feather;
+import disgust.icons.Icon;
+import disgust.io.ButtonsPack;
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.components.Ref;
 import megalodonte.base.state.State;
 import megalodonte.components.DesktopDialogs;
 import megalodonte.components.SimpleTable;
+import megalodonte.props.ButtonVariant;
 import megalodonte.props.SimpleTableProps;
 import minastex_pedidos.forms.AccountForm;
 import minastex_pedidos.forms.ClientForm;
@@ -60,10 +64,10 @@ final class CadastroScreen implements ScreenComponent {
                 disgust.io.Pack.searchInput(query, "Pesquisar", true, null),
                 Components.row(
                         Components.button("+ Cadastrar", () -> edit(null)),
-                        Components.button("Editar", () -> { if (table.getSelectedItem() != null) edit(table.getSelectedItem()); }),
+                        ButtonsPack.ContainedButtonWithIconStart("Editar", ButtonVariant.PRIMARY, Feather.EDIT, () -> { if (table.getSelectedItem() != null) edit(table.getSelectedItem()); }),
                         Components.button("Ativar/desativar", () -> toggle(table.getSelectedItem())),
-                        Components.button("Excluir", () -> delete(table.getSelectedItem())),
-                        Components.button("Limpar seleção", () -> tableRef.current().clearSelection())
+                        ButtonsPack.ContainedButtonWithIconStart("Excluir", ButtonVariant.DANGER, Feather.TRASH, () -> delete(table.getSelectedItem())),
+                        ButtonsPack.OutlinedButton("Limpar seleção", ButtonVariant.SECONDARY, () -> tableRef.current().clearSelection())
                 ), table.ref(tableRef), table.paginationControls());
     }
 
@@ -88,6 +92,7 @@ final class CadastroScreen implements ScreenComponent {
             } catch (Exception error) { AppController.alert("Informe nome e preço válido."); return; }
         } else {
             Store.Account account = existing == null ? new Store.Account() : JSON.convertValue(existing, Store.Account.class);
+
             AccountForm form = new AccountForm(account);
             if (!DesktopDialogs.form(kind, form.render())) return;
             if (form.label.get().isBlank() || form.bank.get().isBlank()) {
