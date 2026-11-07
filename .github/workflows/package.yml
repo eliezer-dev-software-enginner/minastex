@@ -14,6 +14,6 @@ jobs:
     with:
       project-directory: .
       artifact-name: minastex-pedidos
-      dependencies: ''
+      dependencies: 'disgust'
       release: true
       smoke-test: true

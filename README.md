@@ -64,6 +64,10 @@ usa um host JavaFX exclusivo para que o dock associe a janela ao ícone correto;
 o framework registra a entrada de desenvolvimento com um caminho de ícone baseado
 no conteúdo, evitando reaproveitar uma imagem antiga após sua atualização.
 
+O workflow de empacotamento solicita a dependência `disgust` ao workflow
+compartilhado, que prepara também `pack-utilities` antes de compilar o aplicativo.
+O funcionamento e o diagnóstico estão em [Empacotamento no GitHub Actions](docs/EMPACOTAMENTO-CI.md).
+
 
 ## Skill de UI para agentes
 
