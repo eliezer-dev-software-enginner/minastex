@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520" role="img" aria-labelledby="title desc">
-  <title id="title">Mundo de compilação incremental usado pelo Minastex</title>
+  <title id="title">Mundo de compilação incremental para aplicações Megalodonte</title>
   <desc id="desc">O projeto é mapeado em JSON e blobs, compilado incrementalmente e aplicado com segurança na aplicação.</desc>
   <defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L8 3L0 6Z" fill="#94a3b8"/></marker><style>text{font-family:Inter,DejaVu Sans,sans-serif}.h{font-size:25px;font-weight:700;fill:#f8fafc}.t{font-size:17px;font-weight:700;fill:#f8fafc}.b{font-size:13px;fill:#cbd5e1}.x{fill:#172033;stroke-width:2}.l{stroke:#94a3b8;stroke-width:2;marker-end:url(#a)}</style></defs>
   <rect width="1100" height="520" rx="20" fill="#0f172a"/><text x="36" y="48" class="h">Live reload: projeto → mundo virtual → aplicação</text>
-  <rect class="x" x="36" y="92" width="220" height="120" rx="12" stroke="#38bdf8"/><text x="56" y="125" class="t">Projeto Minastex</text><text x="56" y="153" class="b">Java + resources + build</text><text x="56" y="176" class="b">.env: somente hash</text>
+  <rect class="x" x="36" y="92" width="220" height="120" rx="12" stroke="#38bdf8"/><text x="56" y="125" class="t">Aplicação Megalodonte</text><text x="56" y="153" class="b">Java + resources + build</text><text x="56" y="176" class="b">.env: somente hash</text>
   <rect class="x" x="306" y="92" width="270" height="120" rx="12" stroke="#a78bfa"/><text x="326" y="125" class="t">Mapa incremental</text><text x="326" y="153" class="b">Manifesto inicial em JSON</text><text x="326" y="176" class="b">Depois, apenas deltas e tokens</text>
   <rect class="x" x="626" y="92" width="438" height="120" rx="12" stroke="#22d3ee"/><text x="646" y="125" class="t">Mundo virtual por conteúdo</text><text x="646" y="153" class="b">Blobs SHA-256; fontes e recursos espelhados</text><text x="646" y="176" class="b">Arquivos iguais mantêm data para o Gradle incremental</text>
   <path class="l" d="M256 152H303"/><path class="l" d="M576 152H623"/>
@@ -11,5 +11,5 @@
   <rect class="x" x="400" y="278" width="300" height="126" rx="12" stroke="#fbbf24"/><text x="420" y="311" class="t">Resposta compacta</text><text x="420" y="339" class="b">Status e diagnósticos</text><text x="420" y="362" class="b">Hashes de classes/resources</text><text x="420" y="385" class="b">Sem devolver todo o projeto</text>
   <rect class="x" x="764" y="278" width="300" height="126" rx="12" stroke="#60a5fa"/><text x="784" y="311" class="t">Runtime</text><text x="784" y="339" class="b">Compatível: aplica e rerenderiza</text><text x="784" y="362" class="b">Estrutural/.env: exige substituição</text><text x="784" y="385" class="b">Falha: mantém a versão anterior</text>
   <path class="l" d="M845 212V245H186V275"/><path class="l" d="M336 341H397"/><path class="l" d="M700 341H761"/>
-  <text x="36" y="465" class="b">A infraestrutura é comum a qualquer aplicação Megalodonte; nenhuma regra do Minastex existe no protocolo.</text><text x="36" y="490" class="b">Mudanças estruturais com a mesma janela ainda dependem de um mecanismo de ativação além da JVM padrão.</text>
+  <text x="36" y="465" class="b">A infraestrutura é comum a qualquer aplicação Megalodonte e não contém regras específicas de domínio.</text><text x="36" y="490" class="b">Mudanças estruturais com a mesma janela ainda dependem de um mecanismo de ativação além da JVM padrão.</text>
 </svg>
