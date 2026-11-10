@@ -55,6 +55,15 @@ eles não vieram junto do prompt recebido.
 
 `./gradlew test` valida os cálculos, a persistência de snapshots e o PDF com
 paginação e dados bancários opcionais. `./gradlew run` abre a interface.
+Para desenvolver com live reload, use `megalodonte dev --project .`. O CLI mapeia
+este projeto no mesmo mundo de compilação genérico usado por qualquer aplicação
+Megalodonte: manifesto JSON inicial, deltas de arquivos/tokens, conteúdo por hash,
+compilação incremental e resposta apenas com metadados dos artefatos. O protocolo
+não conhece pedidos, clientes nem telas do Minastex. Uma alteração em `.env`
+exige reiniciar a sessão e seus valores não entram no JSON do protocolo.
+
+![Funcionamento do live reload no Minastex](docs/images/live-reload.svg)
+
 O projeto foi registrado como `local_only` em `workspace.toml` e possui Git
 próprio, conforme gerado pelo CLI. O PDF usa PDFBox e a fonte DejaVu Sans
 incorporada; a licença da fonte está em `src/main/resources/fonts/LICENSE.txt`.
