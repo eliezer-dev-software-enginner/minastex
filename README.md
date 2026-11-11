@@ -54,7 +54,8 @@ eles não vieram junto do prompt recebido.
 ## Desenvolvimento
 
 `./gradlew test` valida os cálculos, a persistência de snapshots e o PDF com
-paginação e dados bancários opcionais. `./gradlew run` abre a interface.
+paginação, título contendo número/data do pedido, tabela em grade e dados
+bancários opcionais. `./gradlew run` abre a interface.
 Para desenvolver com live reload, use `megalodonte dev --project .`. O CLI mapeia
 este projeto no mesmo mundo de compilação genérico usado por qualquer aplicação
 Megalodonte: manifesto JSON inicial, deltas de arquivos/tokens, conteúdo por hash,

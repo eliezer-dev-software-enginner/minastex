@@ -1,6 +1,7 @@
 package minastex_pedidos;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import javax.imageio.ImageIO;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,8 +62,10 @@ class OrderTest {
 
     @Test void exportsPagedPdfWithOptionalBankDetails() throws Exception {
         Store store = new Store(directory.resolve("data.json"));
+        store.data.company.legalName = "MINASTEX IND. DE CORTE E PAINEIS LTDA";
+        store.data.company.document = "06340287000185";
         Store.Order order = new Store.Order();
-        order.number = 1; order.clientName = "Cliente Minastex"; order.includeBank = true;
+        order.number = 1; order.date = "2026-11-10"; order.clientName = "Cliente Minastex"; order.includeBank = true;
         order.bankText = "Banco Teste | PIX abc123";
         Store.Group group = new Store.Group(); group.materialName = "Branco Gelo MTX";
         group.price = new BigDecimal("12.94");
@@ -69,14 +73,23 @@ class OrderTest {
         order.groups.add(group);
         Path pdf = directory.resolve("pedido.pdf");
         PdfExporter.export(order, store.data.company, pdf);
+        Path previewPdf = Path.of("build/reports/pdf-preview/order.pdf");
+        Files.createDirectories(previewPdf.getParent());
+        Files.copy(pdf, previewPdf, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         assertTrue(Files.size(pdf) > 1000);
         try (PDDocument document = PDDocument.load(pdf.toFile())) {
             assertTrue(document.getNumberOfPages() > 1);
             String text = new PDFTextStripper().getText(document);
+            assertTrue(text.startsWith("MINASTEX - Pedido Nº 1 · 2026-11-10"));
+            assertEquals(document.getNumberOfPages(), text.split("MINASTEX - Pedido Nº 1 · 2026-11-10", -1).length - 1);
             assertTrue(text.contains("Cliente Minastex"));
             assertTrue(text.contains(Store.Company.DEFAULT_WEBSITE));
             assertTrue(text.contains(Store.Company.DEFAULT_EMAIL));
+            assertTrue(text.contains("MINASTEX IND. DE CORTE E PAINEIS LTDA - 06.340.287/0001-85"));
             assertTrue(text.contains("Banco Teste"));
+            Path preview = Path.of("build/reports/pdf-preview/order-page-1.png");
+            Files.createDirectories(preview.getParent());
+            ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png", preview.toFile());
         }
         order.includeBank = false;
         PdfExporter.export(order, store.data.company, pdf);

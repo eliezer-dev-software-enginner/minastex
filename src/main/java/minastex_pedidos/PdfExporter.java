@@ -6,6 +6,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import pack.utilities.FormatterPack;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,22 +23,20 @@ public final class PdfExporter {
         try (PDDocument doc = new PDDocument(); InputStream fontFile = PdfExporter.class.getResourceAsStream("/fonts/DejaVuSans.ttf")) {
             if (fontFile == null) throw new IOException("Fonte do PDF não encontrada");
             PDType0Font font = PDType0Font.load(doc, fontFile);
-            Writer writer = new Writer(doc, font);
+            Writer writer = new Writer(doc, font, order);
             writer.newPage();
             writer.heading(company, order);
             for (Store.Group group : order.groups) {
                 writer.space(14);
                 writer.ensure(55);
                 writer.line(group.materialName + "  ·  " + Money.money(group.price) + "/m²", 12, true);
-                writer.tableRule();
                 writer.cells(new String[] {"Comprimento", "Largura", "Qtd.", "Metragem", "Valor"}, 9);
-                writer.tableRule();
                 for (Store.Item item : group.items) {
                     writer.ensure(22);
                     writer.cells(new String[] {item.length.toPlainString() + " m", item.width.toPlainString() + " m",
                             Integer.toString(item.quantity), Money.area(Store.area(item)), Money.money(Store.itemValue(item, group))}, 9);
                 }
-                writer.tableRule();
+                writer.space(14);
                 writer.line("Total do grupo: " + Money.area(Store.groupArea(group)) + "   ·   " + Money.money(Store.groupValue(group)), 10, true);
             }
             writer.space(20);
@@ -64,11 +63,16 @@ public final class PdfExporter {
     private static final class Writer {
         private final PDDocument document;
         private final PDType0Font font;
+        private final Store.Order order;
         private PDPageContentStream stream;
         private float y;
         private int pageNumber;
         private static final float LEFT = 42, RIGHT = 553;
-        Writer(PDDocument document, PDType0Font font) { this.document = document; this.font = font; }
+        Writer(PDDocument document, PDType0Font font, Store.Order order) {
+            this.document = document;
+            this.font = font;
+            this.order = order;
+        }
         void newPage() throws IOException {
             close();
             PDPage page = new PDPage(PDRectangle.A4);
@@ -76,7 +80,7 @@ public final class PdfExporter {
             stream = new PDPageContentStream(document, page);
             pageNumber++;
             y = 800;
-            line("MINASTEX  ·  PEDIDO COMERCIAL", 9, true);
+            line("MINASTEX - Pedido Nº " + order.number + " · " + order.date, 12, true);
             y -= 10;
         }
         void heading(Store.Company company, Store.Order order) throws IOException {
@@ -98,11 +102,11 @@ public final class PdfExporter {
                 }
             } catch (IOException | IllegalArgumentException ignored) { /* An invalid custom logo does not invalidate the PDF. */ }
             line(company.name, 18, true);
-            wrap(company.legalName + "   " + company.document, 9);
+            String cnpj = FormatterPack.formatCnpj(company.document);
+            wrap(company.legalName + (cnpj.isBlank() ? "" : " - " + cnpj), 9);
             wrap(company.phone + "   " + company.email + "   " + company.address, 9);
             wrap(company.website, 9);
             space(12);
-            line("Pedido Nº " + order.number + "  ·  " + order.date, 14, true);
             wrap("Cliente: " + order.clientName + "   " + order.clientDocument, 11);
             tableRule();
         }
@@ -118,13 +122,26 @@ public final class PdfExporter {
             y -= size + (bold ? 8 : 7);
         }
         void cells(String[] values, int size) throws IOException {
-            ensure(size + 12);
-            float[] x = {LEFT, 145, 245, 300, 420};
+            float rowHeight = size + 13;
+            ensure(rowHeight);
+            float top = y;
+            float bottom = y - rowHeight;
+            float[] x = {LEFT, 145, 245, 300, 420, RIGHT};
+            stream.setLineWidth(.45f);
+            stream.moveTo(LEFT, top);
+            stream.lineTo(RIGHT, top);
+            stream.moveTo(LEFT, bottom);
+            stream.lineTo(RIGHT, bottom);
+            for (float boundary : x) {
+                stream.moveTo(boundary, top);
+                stream.lineTo(boundary, bottom);
+            }
+            stream.stroke();
             for (int i = 0; i < values.length; i++) {
-                stream.beginText(); stream.setFont(font, size); stream.newLineAtOffset(x[i], y);
+                stream.beginText(); stream.setFont(font, size); stream.newLineAtOffset(x[i] + 4, bottom + 7);
                 stream.showText(values[i]); stream.endText();
             }
-            y -= size + 9;
+            y = bottom;
         }
         void wrap(String text, int size) throws IOException {
             String remaining = text == null ? "" : text.replaceAll("\\s+", " ").trim();
