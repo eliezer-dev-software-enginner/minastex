@@ -47,7 +47,7 @@ final class AppController {
                     Store.Company company = Store.copy(store.data.company);
                     Thread.ofVirtual().name("minastex-export-pdf").start(() -> {
                         try {
-                            PdfExporter.export(snapshot, company, file);
+                            OrderPdf.write(snapshot, company, file);
                             System.out.println("PDF salvo em " + file);
                             UI.runOnUi(() -> alert("PDF salvo em " + file));
                         } catch (Exception error) {
@@ -64,7 +64,7 @@ final class AppController {
         Thread.ofVirtual().name("minastex-preview-pdf").start(() -> {
             try {
                 Path file = Files.createTempFile("minastex-" + snapshot.number + "-", ".pdf");
-                PdfExporter.export(snapshot, company, file);
+                OrderPdf.write(snapshot, company, file);
                 openPdf(file);
                 System.out.println("Prévia do PDF aberta: " + file);
             } catch (Exception error) {

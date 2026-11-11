@@ -72,7 +72,7 @@ class OrderTest {
         for (int i = 0; i < 90; i++) group.items.add(new Store.Item());
         order.groups.add(group);
         Path pdf = directory.resolve("pedido.pdf");
-        PdfExporter.export(order, store.data.company, pdf);
+        OrderPdf.write(order, store.data.company, pdf);
         Path previewPdf = Path.of("build/reports/pdf-preview/order.pdf");
         Files.createDirectories(previewPdf.getParent());
         Files.copy(pdf, previewPdf, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
@@ -92,7 +92,7 @@ class OrderTest {
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png", preview.toFile());
         }
         order.includeBank = false;
-        PdfExporter.export(order, store.data.company, pdf);
+        OrderPdf.write(order, store.data.company, pdf);
         try (PDDocument document = PDDocument.load(pdf.toFile())) {
             assertFalse(new PDFTextStripper().getText(document).contains("Banco Teste"));
         }

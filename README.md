@@ -55,7 +55,10 @@ eles não vieram junto do prompt recebido.
 
 `./gradlew test` valida os cálculos, a persistência de snapshots e o PDF com
 paginação, título contendo número/data do pedido, tabela em grade e dados
-bancários opcionais. `./gradlew run` abre a interface.
+bancários opcionais. O PDF é gerado pelo `DataPdf` de `pack-utilities`; o layout
+orientado a dados está em `src/main/resources/pdf/order.jsonc`, sem coordenadas
+PDFBox no código da aplicação. [Veja a arquitetura do documento](docs/PDF-ORIENTADO-A-DADOS.md).
+`./gradlew run` abre a interface.
 Para desenvolver com live reload, use `megalodonte dev --project .`. O CLI mapeia
 este projeto no mesmo mundo de compilação genérico usado por qualquer aplicação
 Megalodonte: manifesto JSON inicial, deltas de arquivos/tokens, conteúdo por hash,
@@ -66,8 +69,9 @@ exige reiniciar a sessão e seus valores não entram no JSON do protocolo.
 ![Funcionamento do live reload no Minastex](docs/images/live-reload.svg)
 
 O projeto foi registrado como `local_only` em `workspace.toml` e possui Git
-próprio, conforme gerado pelo CLI. O PDF usa PDFBox e a fonte DejaVu Sans
-incorporada; a licença da fonte está em `src/main/resources/fonts/LICENSE.txt`.
+próprio, conforme gerado pelo CLI. O motor PDF e as fontes DejaVu Sans regular e
+negrito são fornecidos por `pack-utilities`; o aplicativo mantém somente o template
+e a transformação dos dados do pedido.
 O ícone da janela usa `src/main/resources/icon.png`; o empacotamento usa esse
 PNG no Linux e `src/main/resources/icon.ico` no Windows. No Linux, a aplicação
 usa um host JavaFX exclusivo para que o dock associe a janela ao ícone correto;

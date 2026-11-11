@@ -12,7 +12,7 @@ dependencies {
     implementation("megalodonte:megalodonte-base:1.0.0-beta")
     implementation("megalodonte:megalodonte-theme:1.0.0-beta")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
-    implementation("org.apache.pdfbox:pdfbox:2.0.29")
+    testImplementation("org.apache.pdfbox:pdfbox:2.0.29")
     implementation("disgust:distust-io-components:1.0.0-beta")
     implementation("pack.utilities:pack-utilities:1.0.0")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
