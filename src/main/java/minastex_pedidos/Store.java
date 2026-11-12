@@ -108,7 +108,7 @@ public final class Store {
         public Company company = new Company();
     }
     public static final class Client {
-        public String id = Store.id(), name = "", document = "", phone = "", email = "", notes = "";
+        public String id = Store.id(), name = "", document = "", phone = "", email = "", notes = "", formaPagamento = "PIX";
         public boolean active = true;
         @Override public String toString() { return name; }
     }

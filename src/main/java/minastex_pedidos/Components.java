@@ -2,6 +2,8 @@ package minastex_pedidos;
 
 import disgust.io.ButtonsPack;
 import disgust.io.Pack;
+import megalodonte.components.Select;
+import minastex_pedidos.data.Data;
 import minastex_pedidos.data.InputType;
 import megalodonte.base.components.Component;
 import megalodonte.base.state.State;
@@ -13,6 +15,8 @@ import megalodonte.components.layout_components.Row;
 import megalodonte.props.ColumnProps;
 import megalodonte.props.RowProps;
 import megalodonte.props.TextProps;
+
+import java.util.List;
 
 /** Stateless factories for the application's shared visual vocabulary. */
 public final class Components {
@@ -100,5 +104,12 @@ public final class Components {
         return new Column(new ColumnProps().spacingOf(9).paddingAll(18)).children(
                 new Text(title, new TextProps().bold()),
                 new Column(new ColumnProps().spacingOf(9)).children(fields));
+    }
+
+    public static Component select(String label, List<String> dataList, State<String> valueState) {
+        return new Column().children(
+                new Text(label, new TextProps().fontSize(ThemeManager.theme().typography().small())),
+                new Select<String>().items(dataList).value(valueState)
+        );
     }
 }
