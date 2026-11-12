@@ -21,10 +21,6 @@ Antes de alterar código, identifique o arquivo, versão, processo e projeto que
 
 Reproduza ou rastreie o cenário descrito, inclusive a sequência de cliques, entrada, estado salvo e saída. Busque a causa no caminho completo antes de modificar a primeira função suspeita. Quando o usuário informa que uma correção não funcionou, trate a observação como evidência nova: confira a versão efetivamente carregada, caches, artefatos publicados e outros pontos do mesmo fluxo antes de afirmar que o defeito persiste no código.
 
-Antes de criar uma interface de teste para integrações, confirme a direção da chamada e quem é o cliente HTTP. Um sistema externo deve chamar diretamente o endpoint público da API; não crie um cartão que apenas replique essa chamada para a própria API, salvo se o usuário pedir explicitamente um cliente manual para esse endpoint. Separe cartões de disparo para sistemas externos dos endpoints de entrada e, quando a intenção da página ou do fluxo não estiver clara, faça uma pergunta objetiva antes de implementar.
-
-Antes de criar uma interface de teste para integrações, confirme a direção da chamada e quem é o cliente HTTP. Um sistema externo deve chamar diretamente o endpoint público da API; não crie um cartão que apenas replique essa chamada para a própria API, salvo se o usuário pedir explicitamente um cliente manual para esse endpoint. Separe cartões de disparo para sistemas externos dos endpoints de entrada e, quando a intenção da página ou do fluxo não estiver clara, faça uma pergunta objetiva antes de implementar.
-
 ## Implementar no lugar certo
 
 Em projetos com Java 25 ou posterior, o método de entrada `main` não precisa ser `public`; omita esse modificador quando não houver exigência externa de API ou compatibilidade. Omita também `String[] args` quando não for usado. Se os argumentos forem encaminhados ao framework ou necessários ao comportamento da aplicação, mantenha-os; em projetos com Java anterior, preserve as exigências da versão suportada.
