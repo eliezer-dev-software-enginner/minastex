@@ -64,7 +64,12 @@ este projeto no mesmo mundo de compilação genérico usado por qualquer aplica�
 Megalodonte: manifesto JSON inicial, deltas de arquivos/tokens, conteúdo por hash,
 compilação incremental e resposta apenas com metadados dos artefatos. O protocolo
 não conhece pedidos, clientes nem telas do Minastex. Uma alteração em `.env`
-exige reiniciar a sessão e seus valores não entram no JSON do protocolo.
+exige reiniciar a sessão e seus valores não entram no JSON do protocolo. Alterações
+compatíveis no corpo de métodos mantêm o processo, as telas e seus `State`. Mudanças
+estruturais, como adicionar um import acompanhado de nova classe, fábrica `static`,
+campo ou assinatura, reiniciam automaticamente o processo cliente para aplicar a
+geração; nesse fallback, as janelas são recriadas e o estado em memória é perdido.
+Use `--no-restart-on-incompatible` somente quando preferir manter a geração anterior.
 
 ![Funcionamento do live reload no Minastex](docs/images/live-reload.svg)
 
