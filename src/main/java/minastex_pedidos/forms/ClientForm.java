@@ -22,6 +22,5 @@ public final class ClientForm {
                 Components.field("Observações", notes),
                 Components.select("Formas de pagamento", Data.formasPgt, formaPagamento)
                 );
-
         }
     }

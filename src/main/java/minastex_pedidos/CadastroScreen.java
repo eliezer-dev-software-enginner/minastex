@@ -51,6 +51,7 @@ final class CadastroScreen implements ScreenComponent {
                 .column("CPF/CNPJ", x -> ((Store.Client) x).document)
                 .column("Telefone", x -> ((Store.Client) x).phone)
                 .column("E-mail", x -> ((Store.Client) x).email)
+                .column("Forma de pgto", x -> ((Store.Client) x).formaPagamento)
                 .column("Situação", x -> ((Store.Client) x).active ? "Ativo" : "Inativo");
         else if (kind.equals("Acabamentos")) columns.column("Acabamento", x -> ((Store.Material) x).name)
                 .column("Preço/m²", x -> Money.money(((Store.Material) x).price))
@@ -79,7 +80,10 @@ final class CadastroScreen implements ScreenComponent {
             if (form.name.get().isBlank()) { AppController.alert("Informe o nome."); return; }
             client.name = form.name.get().trim(); client.document = form.document.get().trim();
             client.phone = form.phone.get().trim(); client.email = form.email.get().trim();
-            client.notes = form.notes.get().trim(); replace(app.store.data.clients, (Store.Client) existing, client);
+            client.notes = form.notes.get().trim();
+            client.formaPagamento = form.formaPagamento.get().trim();
+
+            replace(app.store.data.clients, (Store.Client) existing, client);
         } else if (kind.equals("Acabamentos")) {
             Store.Material material = existing == null ? new Store.Material() : JSON.convertValue(existing, Store.Material.class);
             MaterialForm form = new MaterialForm(material);
