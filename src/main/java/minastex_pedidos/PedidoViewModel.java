@@ -34,8 +34,21 @@ final class PedidoViewModel {
         if (original == null) draft.ipiPercent = app.store.data.company.ipiPercent;
         client = State.of(app.store.data.clients.stream().filter(c -> c.id.equals(draft.clientId)).findFirst().orElse(null));
         date = State.of(LocalDate.parse(draft.date)); ipi = State.of(draft.ipiPercent.toPlainString());
-        weight = State.of(draft.weight); freight = State.of(draft.freight); payment = State.of(draft.payment);
-        paymentTerm = State.of(draft.paymentTerm); pickupDate = State.of(draft.pickupDate);
+        weight = State.of(draft.weight);
+
+        freight = State.of(draft.freight);
+        payment =  State.of(draft.payment);
+        paymentTerm = State.of(draft.paymentTerm);
+
+        client.subscribe(client1 -> {
+            if(client.isNull())return;
+            payment.set(client1.formaPagamento);
+            paymentTerm.set(client1.prazo);
+            freight.set(client1.frete);
+        });
+
+
+        pickupDate = State.of(draft.pickupDate);
         notes = State.of(draft.notes); includeBank = State.of(draft.includeBank);
         account = State.of(null); bankText = State.of(draft.bankText);
         groups = State.of(draft.groups.stream().map(group -> new GroupViewModel(this, group)).toList());
