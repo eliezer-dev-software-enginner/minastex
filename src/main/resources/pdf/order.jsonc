@@ -41,10 +41,16 @@
     { "type": "TEXT", "value": "${subtotal}", "fontSize": 11, "bold": true, "spacingAfter": 4 },
     { "type": "TEXT", "value": "${ipi}", "fontSize": 11, "spacingAfter": 4 },
     { "type": "TEXT", "value": "${total}", "fontSize": 16, "bold": true, "spacingAfter": 15 },
-    { "type": "TEXT", "value": "${shipping}", "fontSize": 10, "spacingAfter": 4 },
+    { "type": "TEXT", "value": "${peso}", "fontSize": 10, "spacingAfter": 4 },
+    { "type": "IF", "path": "frete", "body": [
+      { "type": "TEXT", "value": "${frete}", "fontSize": 10, "spacingAfter": 4 }
+    ]},
     { "type": "TEXT", "value": "${payment}", "fontSize": 10, "spacingAfter": 4 },
     { "type": "IF", "path": "pickup", "body": [
       { "type": "TEXT", "value": "${pickup}", "fontSize": 10, "spacingAfter": 4 }
+    ]},
+    { "type": "IF", "path": "prazo", "body": [
+      { "type": "TEXT", "value": "${prazo}", "fontSize": 10, "spacingAfter": 4 }
     ]},
     { "type": "IF", "path": "notes", "body": [
       { "type": "TEXT", "value": "${notes}", "fontSize": 10, "spacingAfter": 4 }

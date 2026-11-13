@@ -39,8 +39,10 @@ final class OrderPdf {
         data.put("subtotal", "Subtotal: " + Money.money(Store.subtotal(order)));
         data.put("ipi", "IPI (" + order.ipiPercent.toPlainString() + "%): " + Money.money(Store.ipi(order)));
         data.put("total", "TOTAL: " + Money.money(Store.total(order)));
-        data.put("shipping", "Peso: " + value(order.weight) + "   Frete: " + value(order.freight));
-        data.put("payment", "Pagamento: " + value(order.payment) + "   Prazo: " + value(order.paymentTerm));
+        data.put("peso", "Peso: " + value(order.weight));
+        data.put("frete", "Frete: " + value(order.freight));
+        data.put("payment", "Pagamento: " + value(order.payment));
+        data.put("prazo", "Prazo: " + value(order.paymentTerm));
         data.put("pickup", optionalLine("Retirada: ", order.pickupDate));
         data.put("notes", optionalLine("Observações: ", order.notes));
         data.put("showBank", order.includeBank && !order.bankText.isBlank());
