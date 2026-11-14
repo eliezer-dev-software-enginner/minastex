@@ -18,7 +18,9 @@ A consulta roda em uma virtual thread, tem limites de conexão, resposta e
 tamanho, e falha silenciosamente com registro em nível `debug`. Assim, ausência
 de internet, imagem inválida ou indisponibilidade do portfólio nunca impede o
 cadastro e a consulta de pedidos. Imagens usam `AsyncImage`, que carrega
-em segundo plano para não bloquear a thread da interface.
+em segundo plano para não bloquear a thread da interface e reutiliza a imagem
+por URL durante a execução. Ao voltar para uma tela, os cards recebem novos nós
+visuais, mas não reiniciam o download ou a decodificação dos banners.
 
 `Show.when` mantém as áreas de anúncio fora do layout enquanto a lista está
 vazia; nenhum título, contêiner ou card reserva espaço antes do carregamento. O
