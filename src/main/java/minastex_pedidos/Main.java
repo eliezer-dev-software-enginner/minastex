@@ -12,7 +12,7 @@ public final class Main {
 
     static void main(String[] args) {
         ThemeManager.setTheme(new MinastexTheme());
-        MegalodonteApp.appName("Minastex Pedidos");
+        MegalodonteApp.appName("Minastex Pedidos - v0.1.1");
         MegalodonteApp.appIcon("/icon.png");
         
         MegalodonteApp.run(AppHost.class, args, context -> {
