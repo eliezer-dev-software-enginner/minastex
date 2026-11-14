@@ -7,9 +7,11 @@ dois níveis:
 - **Soluções EliezerDev**, na barra lateral, mostra todas as campanhas destinadas
   ao aplicativo.
 
-Os dados vêm de `https://eliezer-dev.vercel.app/anuncios`. O aplicativo lê apenas
-marcação HTML declarada com `data-minastex-ad="true"`; títulos, descrições,
-imagens e links são tratados como dados, sem executar scripts da página. Enquanto
+Os dados vêm de `https://eliezer-dev.vercel.app/anuncios`. Cada campanha declara
+um array `audience`, publicado como `data-audiences`; o aplicativo seleciona as
+entradas que contêm `minastex-pedidos`. Assim, uma mesma campanha pode atender a
+vários aplicativos sem duplicação. Títulos, descrições, imagens e links são
+tratados como dados, sem executar scripts da página. Enquanto
 o feed específico ainda não estiver publicado, as imagens das campanhas antigas
 podem ser usadas como compatibilidade temporária, mas recebem títulos e descrições
 contextualizados para a Minastex dentro do aplicativo.

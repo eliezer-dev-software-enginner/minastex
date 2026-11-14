@@ -46,6 +46,14 @@ final class AdsFeed {
     static List<Ad> parse(String html, URI page) {
         var document = Jsoup.parse(html, page.toString());
         var ads = new ArrayList<Ad>();
+        for (var element : document.select("span[data-audiences]")) {
+            if (!supports(element.attr("data-audiences"), "minastex-pedidos")) continue;
+            add(ads, page, element.attr("data-title"), element.attr("data-description"),
+                    element.attr("data-image"), "true".equalsIgnoreCase(element.attr("data-urgent")),
+                    element.attr("data-redirect"));
+        }
+        if (!ads.isEmpty()) return List.copyOf(ads);
+
         for (var element : document.select("span[data-minastex-ad=true]")) {
             add(ads, page, element.attr("data-title"), element.attr("data-description"),
                     element.attr("data-image"), "true".equalsIgnoreCase(element.attr("data-urgent")),
@@ -66,6 +74,12 @@ final class AdsFeed {
                     element.attr("data-image"), systems, element.attr("data-redirect"));
         }
         return List.copyOf(ads);
+    }
+
+    private static boolean supports(String audiences, String application) {
+        return java.util.Arrays.stream(audiences.split(","))
+                .map(String::strip)
+                .anyMatch(application::equals);
     }
 
     private static void add(List<Ad> ads, URI page, String title, String description,
