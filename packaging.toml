@@ -2,7 +2,6 @@ schema_version = 1
 
 [app]
 name = "Minastex Pedidos"
-version = "0.1.1"
 main_class = "minastex_pedidos.Main"
 icon_linux = "src/main/resources/icon.png"
 icon_windows = "src/main/resources/icon.ico"

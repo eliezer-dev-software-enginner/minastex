@@ -20,3 +20,17 @@ Windows ou Linux do GitHub.
 
 Aceitar URLs arbitrárias de repositórios Gradle é uma possibilidade para o futuro
 do empacotador compartilhado; não é suportado pelo campo `dependencies` atual.
+
+## Versão do aplicativo
+
+`gradle.properties` é a única fonte da versão, por meio de `appVersion`. O
+`build.gradle.kts` usa essa propriedade no nome e nos metadados do JAR, enquanto
+o empacotador compartilhado usa o mesmo valor no instalador e na expansão de
+`{version}` em `packaging.toml`. Para publicar uma nova versão, altere somente:
+
+```properties
+appVersion=0.1.1
+```
+
+Não volte a declarar `version` em `[app]` no `packaging.toml`, pois isso criaria
+uma segunda fonte capaz de divergir do artefato produzido pelo Gradle.
