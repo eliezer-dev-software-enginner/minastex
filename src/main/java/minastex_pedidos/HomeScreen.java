@@ -1,20 +1,20 @@
 package minastex_pedidos;
 
 import disgust.icons.Feather;
-import megalodonte.base.Redirect;
-import megalodonte.base.UI;
+import disgust.io.ButtonsPack;
+import disgust.io.Tooltip;
+import disgust.io.Tooltip.Position;
 import megalodonte.base.components.Component;
+import megalodonte.base.components.Ref;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.theme.ThemeManager;
-import megalodonte.components.Clickable;
 import megalodonte.components.LineHorizontal;
 import megalodonte.components.SpacerVertical;
 import megalodonte.components.StateView;
 import megalodonte.components.Text;
-import megalodonte.components.layout_components.Column;
 import megalodonte.components.layout_components.Container;
 import megalodonte.components.layout_components.Row;
-import megalodonte.props.ColumnProps;
+import megalodonte.props.ButtonVariant;
 import megalodonte.props.ContainerProps;
 import megalodonte.props.RowProps;
 import megalodonte.props.TextProps;
@@ -23,6 +23,7 @@ import megalodonte.props.TextProps;
 /** Declarative navigation shell. Each menu destination owns its own screen. */
 public final class HomeScreen implements ScreenComponent {
     private final AppController app = new AppController();
+    Ref<Tooltip> tooltipRef = new Ref<>();
 
     @Override public Component render() {
         return new Row(new RowProps().fillHeight().bgColor(ThemeManager.theme().colors().background())).children(
@@ -37,11 +38,17 @@ public final class HomeScreen implements ScreenComponent {
                         Components.nav("Contas bancárias", Feather.CREDIT_CARD, () -> app.registry("Contas bancárias")),
                         Components.nav("Empresa", Feather.SETTINGS, app::company),
                         new SpacerVertical().fill(),
-                        new Clickable(new Text("Desenvolvido por EliezerDev")).onClick(() ->
-                                Redirect.to("https://eliezer-dev.vercel.app/", error ->
-                                        UI.runOnUi(() -> AppController.alert("Não foi possível abrir o portfólio: " + error.getMessage()))))
-                ),
+                        new Tooltip("Vá para a página do criador",
+                        		ButtonsPack.OutlinedButton("Criado por EliezerDev", ButtonVariant.SUCCESS, "https://eliezer-dev.vercel.app/")
+                        		).position(Position.RIGHT).enterDelay(200)
+                        .ref(tooltipRef)),
                 new StateView<>(app.screen, screen -> screen.render())
         );
     }
+    
+    	@Override
+    	public void onDestroy() {
+    		tooltipRef.current().close();
+    		IO.print("tooltip killed");
+    	}
 }

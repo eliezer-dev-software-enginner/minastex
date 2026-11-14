@@ -2,6 +2,7 @@ package minastex_pedidos;
 
 import disgust.icons.Feather;
 import disgust.io.ButtonsPack;
+import disgust.io.Tooltip;
 import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.state.State;
@@ -38,7 +39,7 @@ final class EmpresaScreen implements ScreenComponent {
                 Components.row(Components.field("E-mail", email), Components.field("Site", website)),
                 Components.field("Endereço", address),
                 Components.row(
-                        Components.field("Caminho da logomarca", logo),
+                		new Tooltip("A logomarca selecionada vai aparecer no PDF, substituindo a logomarca padrão.", Components.field("Caminho da logomarca", logo)),
                         ButtonsPack.OutlinedButtonWithIconStart("Selecionar imagem", ButtonVariant.PRIMARY, Feather.IMAGE,
                                 () -> FilePicker.chooseImage()
                                         .ifPresent(chosen -> logo.set(Path.of(chosen).toString()))
