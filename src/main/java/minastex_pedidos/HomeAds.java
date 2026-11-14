@@ -13,9 +13,11 @@ import megalodonte.components.StateView;
 import megalodonte.components.Text;
 import megalodonte.components.TextFlow;
 import megalodonte.components.layout_components.Column;
+import megalodonte.components.layout_components.Container;
 import megalodonte.components.layout_components.FlowRow;
 import megalodonte.props.CardProps;
 import megalodonte.props.ColumnProps;
+import megalodonte.props.ContainerProps;
 import megalodonte.props.FlowRowProps;
 import megalodonte.props.ImageProps;
 import megalodonte.props.TextProps;
@@ -61,7 +63,9 @@ final class HomeAds implements AutoCloseable {
         if (values.isEmpty()) return new Column();
         return new Column(new ColumnProps().spacingOf(10).fillWidth()).children(
                 new Text(title, new TextProps().fontSize(ThemeManager.theme().typography().subtitle()).bold()),
-                new TextFlow(new Text(subtitle, new TextProps().tone(TextTone.SECONDARY))),
+                new Container(new ContainerProps().paddingTop(0).paddingRight(0)
+                        .paddingDown(8).paddingLeft(0)).children(
+                        new TextFlow(new Text(subtitle, new TextProps().tone(TextTone.SECONDARY)))),
                 new FlowRow(new FlowRowProps().spacingOf(12).verticalSpacing(12).fillWidth())
                         .items(values.stream().map(HomeAds::card).toList()));
     }
