@@ -14,6 +14,8 @@ import java.util.List;
 /** Reads Minastex campaigns from the public portfolio page without running its scripts. */
 final class AdsFeed {
     static final URI PAGE = URI.create("https://eliezer-dev.vercel.app/anuncios");
+    private static final int MAX_PAGE_SIZE = 1_000_000;
+    private static volatile List<Ad> cachedAds;
     private final HttpClient client;
 
     record Ad(String title, String description, URI image, boolean featured, URI redirect) { }
@@ -26,11 +28,19 @@ final class AdsFeed {
     AdsFeed(HttpClient client) { this.client = client; }
 
     List<Ad> fetch() throws IOException, InterruptedException {
-        var request = HttpRequest.newBuilder(PAGE).timeout(Duration.ofSeconds(8)).GET().build();
-        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() != 200) throw new IOException("Página de anúncios: HTTP " + response.statusCode());
-        if (response.body().length() > 1_000_000) throw new IOException("Página de anúncios maior que o esperado");
-        return parse(response.body(), PAGE);
+        List<Ad> cached = cachedAds;
+        if (cached != null) return cached;
+        synchronized (AdsFeed.class) {
+            if (cachedAds != null) return cachedAds;
+            var request = HttpRequest.newBuilder(PAGE).timeout(Duration.ofSeconds(8)).GET().build();
+            var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200)
+                throw new IOException("Página de anúncios: HTTP " + response.statusCode());
+            if (response.body().length() > MAX_PAGE_SIZE)
+                throw new IOException("Página de anúncios maior que o esperado");
+            cachedAds = parse(response.body(), PAGE);
+            return cachedAds;
+        }
     }
 
     static List<Ad> parse(String html, URI page) {

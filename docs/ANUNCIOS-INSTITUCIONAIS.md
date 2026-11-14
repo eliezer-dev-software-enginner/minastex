@@ -20,6 +20,13 @@ de internet, imagem inválida ou indisponibilidade do portfólio nunca impede o
 cadastro e a consulta de pedidos. Imagens usam `AsyncImage`, que carrega
 em segundo plano para não bloquear a thread da interface.
 
+`Show.when` mantém as áreas de anúncio fora do layout enquanto a lista está
+vazia; nenhum título, contêiner ou card reserva espaço antes do carregamento. O
+resultado validado fica em um cache estático em memória durante a execução. A
+Home e a tela dedicada compartilham a mesma lista, e novas instâncias do serviço
+não repetem a requisição. O cache é descartado normalmente ao fechar o aplicativo;
+nenhum arquivo de anúncio é criado no computador.
+
 As campanhas ficam fora do binário para que textos, destinos e destaques possam
 ser atualizados sem republicar o aplicativo. O conteúdo deve permanecer
 institucional e contextual à Minastex: automação de novos processos, integrações,

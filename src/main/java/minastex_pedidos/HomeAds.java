@@ -22,6 +22,7 @@ import megalodonte.props.FlowRowProps;
 import megalodonte.props.ImageProps;
 import megalodonte.props.TextProps;
 import megalodonte.props.TextTone;
+import megalodonte.v2.Show;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,17 +47,19 @@ final class HomeAds implements AutoCloseable {
     }
 
     Component highlights() {
-        return new StateView<>(ads, values -> section(
-                values.stream().sorted(Comparator.comparing(AdsFeed.Ad::featured).reversed())
-                        .limit(2).toList(),
-                "Soluções para a Minastex",
-                "Ideias selecionadas para ampliar a automação da empresa."));
+        return Show.when(ads.map(values -> !values.isEmpty()), () ->
+                new StateView<>(ads, values -> section(
+                        values.stream().sorted(Comparator.comparing(AdsFeed.Ad::featured).reversed())
+                                .limit(2).toList(),
+                        "Soluções para a Minastex",
+                        "Ideias selecionadas para ampliar a automação da empresa.")));
     }
 
     Component catalog() {
-        return new StateView<>(ads, values -> section(values,
-                "Tecnologia sob medida para a empresa",
-                "Conheça outras formas de automatizar processos, integrar equipes e atender clientes."));
+        return Show.when(ads.map(values -> !values.isEmpty()), () ->
+                new StateView<>(ads, values -> section(values,
+                        "Tecnologia sob medida para a empresa",
+                        "Conheça outras formas de automatizar processos, integrar equipes e atender clientes.")));
     }
 
     private static Component section(List<AdsFeed.Ad> values, String title, String subtitle) {

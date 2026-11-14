@@ -11,6 +11,7 @@ dependencies {
     implementation("megalodonte:megalodonte-components:1.0.0-beta")
     implementation("megalodonte:megalodonte-base:1.0.0-beta")
     implementation("megalodonte:megalodonte-theme:1.0.0-beta")
+    implementation("megalodonte:megalodonte-reactivity:1.0.0-beta")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     implementation("org.jsoup:jsoup:1.23.1")
     implementation("org.slf4j:slf4j-api:2.0.17")
