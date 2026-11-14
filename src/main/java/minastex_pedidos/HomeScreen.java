@@ -37,6 +37,7 @@ public final class HomeScreen implements ScreenComponent {
                         Components.nav("Acabamentos", Feather.LAYERS, () -> app.registry("Acabamentos")),
                         Components.nav("Contas bancárias", Feather.CREDIT_CARD, () -> app.registry("Contas bancárias")),
                         Components.nav("Empresa", Feather.SETTINGS, app::company),
+                        Components.nav("Soluções EliezerDev", Feather.BRIEFCASE, app::solutions),
                         new SpacerVertical().fill(),
                         new Tooltip("Vá para a página do criador",
                         		ButtonsPack.OutlinedButton("Criado por EliezerDev", ButtonVariant.SUCCESS, "https://eliezer-dev.vercel.app/")
@@ -48,7 +49,7 @@ public final class HomeScreen implements ScreenComponent {
     
     	@Override
     	public void onDestroy() {
-    		tooltipRef.current().close();
-    		IO.print("tooltip killed");
+		if (tooltipRef.current() != null) tooltipRef.current().close();
+		app.close();
     	}
 }

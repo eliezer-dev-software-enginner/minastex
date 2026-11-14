@@ -15,12 +15,14 @@ import java.util.List;
 /** Navigation and application services; screens own only their presentation state. */
 final class AppController {
     final Store store;
+    final HomeAds ads;
     final State<ScreenComponent> screen = State.of(null);
 
     AppController() { this(openDefaultStore()); }
 
     AppController(Store store) {
         this.store = store;
+        this.ads = new HomeAds();
         home();
     }
 
@@ -34,6 +36,9 @@ final class AppController {
     void order(Store.Order existing) { screen.set(new PedidoScreen(this, existing)); }
     void registry(String kind) { screen.set(new CadastroScreen(this, kind)); }
     void company() { screen.set(new EmpresaScreen(this)); }
+    void solutions() { screen.set(new SolucoesScreen(ads)); }
+
+    void close() { ads.close(); }
 
     boolean save() {
         try { store.save(); return true; }

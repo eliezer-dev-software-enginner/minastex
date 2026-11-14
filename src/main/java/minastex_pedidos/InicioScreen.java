@@ -21,6 +21,7 @@ final class InicioScreen implements ScreenComponent {
                 new Text("Pedidos comerciais com cálculos automáticos e PDF."),
                 Components.row(Components.button("+ Novo pedido", () -> app.order(null)),
                         Components.button("Histórico", app::history)),
+                app.ads.highlights(),
                 new Text(app.store.data.orders.size() + " pedidos cadastrados"),
                 new Column(new ColumnProps().spacingOf(8)).items(app.store.data.orders.stream()
                         .sorted(Comparator.comparingInt((Store.Order o) -> o.number).reversed())

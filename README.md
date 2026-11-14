@@ -8,6 +8,10 @@ Layouts, tabelas, formulários e navegação usam componentes Megalodonte;
 campos e listas exibidas são vinculados a `State`.
 O crédito **Desenvolvido por EliezerDev** fica na barra lateral e abre o
 [portfólio do desenvolvedor](https://eliezer-dev.vercel.app/).
+O painel inicial carrega no máximo dois destaques institucionais selecionados
+para a Minastex. A seção **Soluções EliezerDev** reúne a vitrine completa sem
+bloquear o trabalho quando a rede ou o feed estiverem indisponíveis. Veja a
+[arquitetura da vitrine](docs/ANUNCIOS-INSTITUCIONAIS.md).
 
 ## Como usar
 
