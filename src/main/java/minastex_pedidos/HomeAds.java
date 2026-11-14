@@ -74,6 +74,15 @@ final class HomeAds implements AutoCloseable {
     }
 
     private static Component card(AdsFeed.Ad ad) {
+        if (ad.bannerType().equals("square")) {
+            var square = new Card(
+                    new AsyncImage(ad.image().toString(),
+                            new ImageProps().width(300).height(300).preserveRatio(true)),
+                    new CardProps().width(300).height(300).paddingAll(0)
+                            .borderWidth(ad.featured() ? 1 : 0)
+                            .borderColor(ad.featured() ? ThemeManager.theme().colors().primary() : null));
+            return new Clickable(square).onClick(() -> Redirect.to(ad.redirect().toString()));
+        }
         var content = new Column(new ColumnProps().spacingOf(8).width(300).paddingAll(12)).children(
                 new AsyncImage(ad.image().toString(), new ImageProps().width(276).height(138).preserveRatio(true)),
                 new TextFlow(new Text(ad.title(), new TextProps().bold())),

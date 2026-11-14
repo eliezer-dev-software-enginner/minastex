@@ -18,7 +18,8 @@ final class AdsFeed {
     private static volatile List<Ad> cachedAds;
     private final HttpClient client;
 
-    record Ad(String title, String description, URI image, boolean featured, URI redirect) { }
+    record Ad(String title, String description, URI image, boolean featured, URI redirect,
+              String bannerType) { }
 
     AdsFeed() {
         this(HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5))
@@ -50,14 +51,14 @@ final class AdsFeed {
             if (!supports(element.attr("data-audiences"), "minastex-pedidos")) continue;
             add(ads, page, element.attr("data-title"), element.attr("data-description"),
                     element.attr("data-image"), "true".equalsIgnoreCase(element.attr("data-urgent")),
-                    element.attr("data-redirect"));
+                    element.attr("data-redirect"), element.attr("data-banner-type"));
         }
         if (!ads.isEmpty()) return List.copyOf(ads);
 
         for (var element : document.select("span[data-minastex-ad=true]")) {
             add(ads, page, element.attr("data-title"), element.attr("data-description"),
                     element.attr("data-image"), "true".equalsIgnoreCase(element.attr("data-urgent")),
-                    element.attr("data-redirect"));
+                    element.attr("data-redirect"), element.attr("data-banner-type"));
         }
         if (!ads.isEmpty()) return List.copyOf(ads);
 
@@ -71,7 +72,7 @@ final class AdsFeed {
                             : "Automatize atendimentos e rotinas da empresa",
                     systems ? "Transforme outros processos em aplicações simples, rápidas e integradas."
                             : "Bots e integrações podem reduzir tarefas repetitivas e aproximar a equipe dos clientes.",
-                    element.attr("data-image"), systems, element.attr("data-redirect"));
+                    element.attr("data-image"), systems, element.attr("data-redirect"), "banner");
         }
         return List.copyOf(ads);
     }
@@ -83,7 +84,7 @@ final class AdsFeed {
     }
 
     private static void add(List<Ad> ads, URI page, String title, String description,
-                            String image, boolean featured, String redirect) {
+                            String image, boolean featured, String redirect, String bannerType) {
         if (image == null || image.isBlank()) return;
         try {
             URI assetBase = page.resolve(page.getPath().endsWith("/") ? page.getPath() : page.getPath() + "/");
@@ -93,7 +94,8 @@ final class AdsFeed {
                     ? page.resolve("/") : page.resolve(redirect.strip());
             if (!safe(destination)) destination = page.resolve("/");
             ads.add(new Ad(title == null || title.isBlank() ? "Conheça esta solução" : title.strip(),
-                    description == null ? "" : description.strip(), imageUrl, featured, destination));
+                    description == null ? "" : description.strip(), imageUrl, featured, destination,
+                    "square".equalsIgnoreCase(bannerType) ? "square" : "banner"));
         } catch (IllegalArgumentException ignored) { }
     }
 

@@ -16,6 +16,10 @@ o feed específico ainda não estiver publicado, as imagens das campanhas antiga
 podem ser usadas como compatibilidade temporária, mas recebem títulos e descrições
 contextualizados para a Minastex dentro do aplicativo.
 
+`bannerType` é opcional e assume `banner`, o formato horizontal com texto no
+card. O valor `square` cria um card de proporção 1:1 ocupado integralmente pela
+imagem, adequado a peças quadradas como a campanha de aplicativo Android.
+
 A consulta roda em uma virtual thread, tem limites de conexão, resposta e
 tamanho, e falha silenciosamente com registro em nível `debug`. Assim, ausência
 de internet, imagem inválida ou indisponibilidade do portfólio nunca impede o
