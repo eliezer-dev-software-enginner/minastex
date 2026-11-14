@@ -12,6 +12,8 @@ O painel inicial carrega no máximo dois destaques institucionais selecionados
 para a Minastex. A seção **Soluções EliezerDev** reúne a vitrine completa sem
 bloquear o trabalho quando a rede ou o feed estiverem indisponíveis. Veja a
 [arquitetura da vitrine](docs/ANUNCIOS-INSTITUCIONAIS.md).
+Na seção **Últimos pedidos criados**, a Home mantém visíveis somente os três
+pedidos de maior número; o histórico continua reunindo a lista completa.
 
 ## Como usar
 
