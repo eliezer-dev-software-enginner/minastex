@@ -14,6 +14,7 @@ import megalodonte.props.SimpleTableProps;
 import minastex_pedidos.forms.AccountForm;
 import minastex_pedidos.forms.ClientForm;
 import minastex_pedidos.forms.MaterialForm;
+import pack.utilities.CurrencyPack;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -52,7 +53,7 @@ final class CadastroScreen implements ScreenComponent {
                 .column("E-mail", x -> ((Store.Client) x).email)
                 .column("Forma de pgto", x -> ((Store.Client) x).formaPagamento)
                 .column("Prazo", x -> ((Store.Client) x).prazo)
-                .column("Frete", x -> ((Store.Client) x).frete)
+                .column("Frete", x -> CurrencyPack.toBRLCurrency(CurrencyPack.deCentavosParaReal(((Store.Client) x).frete)))
                 .column("Situação", x -> ((Store.Client) x).active ? "Ativo" : "Inativo");
         else if (kind.equals("Acabamentos")) columns.column("Acabamento", x -> ((Store.Material) x).name)
                 .column("Preço/m²", x -> Money.money(((Store.Material) x).price))

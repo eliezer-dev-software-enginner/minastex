@@ -1,6 +1,7 @@
 package minastex_pedidos;
 
 import megalodonte.base.state.State;
+import pack.utilities.FormatterPack;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ final class PedidoViewModel {
     final Store.Order draft;
     final Store.Order original;
     final AppController app;
+    
 
     PedidoViewModel(AppController app, Store.Order original) {
         this.app = app; this.original = original;
@@ -53,8 +55,10 @@ final class PedidoViewModel {
         account = State.of(null); bankText = State.of(draft.bankText);
         groups = State.of(draft.groups.stream().map(group -> new GroupViewModel(this, group)).toList());
         account.subscribe(value -> {
-            if (value != null) bankText.set(value.bank + " | Agência " + value.agency + " | Conta " + value.number
-                    + " | " + value.beneficiary + " | " + value.document + " | PIX " + value.pix);
+            if (value == null) return;
+            	bankText.set(value.bank + " | Agência " + value.agency + " | Conta " + value.number
+                    + " | " + value.beneficiary + " | " + FormatterPack.formatCpfCnpj(value.document));
+           draft.pixAccount = value.pix;
         });
         ipi.subscribe(ignored -> recalculate());
     }

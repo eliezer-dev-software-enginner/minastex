@@ -16,7 +16,9 @@
     },
     { "type": "TEXT", "value": "${company.name}", "fontSize": 18, "bold": true, "spacingAfter": 3 },
     { "type": "TEXT", "value": "${company.legalLine}", "fontSize": 9, "spacingAfter": 3 },
+	{ "type": "TEXT", "value": "DADOS DE CONTATO", "fontSize": 10, "bold": true, "spacingAfter": 4 },
     { "type": "TEXT", "value": "${company.contactLine}", "fontSize": 9, "spacingAfter": 3 },
+	{ "type": "TEXT", "value": "${company.endereco}", "fontSize": 9, "spacingAfter": 3 },
     { "type": "TEXT", "value": "${company.website}", "fontSize": 9, "spacingAfter": 12 },
     { "type": "TEXT", "value": "${clientLine}", "fontSize": 11, "spacingAfter": 4 },
     { "type": "LINE", "spacingAfter": 14 },
@@ -42,10 +44,10 @@
     { "type": "TEXT", "value": "${ipi}", "fontSize": 11, "spacingAfter": 4 },
     { "type": "TEXT", "value": "${total}", "fontSize": 16, "bold": true, "spacingAfter": 15 },
     { "type": "TEXT", "value": "${peso}", "fontSize": 10, "spacingAfter": 4 },
-    { "type": "IF", "path": "frete", "body": [
-      { "type": "TEXT", "value": "${frete}", "fontSize": 10, "spacingAfter": 4 }
-    ]},
     { "type": "TEXT", "value": "${payment}", "fontSize": 10, "spacingAfter": 4 },
+	{ "type": "IF", "path": "frete", "body": [
+	  { "type": "TEXT", "value": "${frete}", "fontSize": 10, "spacingAfter": 4 }
+	]},
     { "type": "IF", "path": "pickup", "body": [
       { "type": "TEXT", "value": "${pickup}", "fontSize": 10, "spacingAfter": 4 }
     ]},
@@ -58,7 +60,8 @@
     { "type": "IF", "path": "showBank", "body": [
       { "type": "SPACER", "height": 8 },
       { "type": "TEXT", "value": "DADOS BANCÁRIOS", "fontSize": 10, "bold": true, "spacingAfter": 4 },
-      { "type": "TEXT", "value": "${bankText}", "fontSize": 10, "spacingAfter": 0 }
+      { "type": "TEXT", "value": "${bankText}", "fontSize": 10, "spacingAfter": 0 },
+	  { "type": "TEXT", "value": "${pix}", "fontSize": 10, "spacingAfter": 0 },
     ]}
   ]
 }

@@ -2,6 +2,9 @@ package minastex_pedidos;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pack.utilities.CurrencyPack;
+import pack.utilities.FormatterPack;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -95,7 +98,9 @@ public final class Store {
     public static BigDecimal ipi(Order order) {
         return amount(subtotal(order).multiply(order.ipiPercent).divide(new BigDecimal("100"), 8, RoundingMode.HALF_UP));
     }
-    public static BigDecimal total(Order order) { return subtotal(order).add(ipi(order)); }
+    public static BigDecimal total(Order order) { 
+    	return subtotal(order).add(ipi(order).add(CurrencyPack.deCentavosParaReal(order.freight)));
+    }
     public static Order copy(Order order) { return JSON.convertValue(order, Order.class); }
     public static Company copy(Company company) { return JSON.convertValue(company, Company.class); }
 
@@ -147,6 +152,7 @@ public final class Store {
         public String weight = "", freight = "", payment = "", paymentTerm = "", pickupDate = "", notes = "";
         public boolean includeBank;
         public String bankText = "";
+        public String pixAccount = "";
         public List<Group> groups = new ArrayList<>();
         @Override public String toString() { return "Pedido " + number + " · " + clientName; }
     }

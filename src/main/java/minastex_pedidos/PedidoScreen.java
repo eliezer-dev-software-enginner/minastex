@@ -16,6 +16,7 @@ import megalodonte.props.ColumnProps;
 import megalodonte.props.DatePickerProps;
 import java.util.Locale;
 import megalodonte.props.TextProps;
+import minastex_pedidos.data.InputType;
 
 final class PedidoScreen implements ScreenComponent {
     private final PedidoViewModel model;
@@ -35,7 +36,7 @@ final class PedidoScreen implements ScreenComponent {
                 new Text(model.totals, new TextProps().fontSize(ThemeManager.theme().typography().subtitle()).bold()),
                 new LineHorizontal(), new Text("Informações complementares"),
                 Components.row(Components.field("Peso (kg) — manual", model.weight, minastex_pedidos.data.InputType.DECIMAL_FIXED_TWO),
-                        Components.field("Frete/condição", model.freight)),
+                        Components.field("Frete/condição", model.freight, InputType.CURRENCY)),
                 Components.row(Components.field("Forma de pagamento", model.payment),
                         Components.field("Prazo", model.paymentTerm)),
                 Components.row(Components.field("Data de retirada", model.pickupDate),

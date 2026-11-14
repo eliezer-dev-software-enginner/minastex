@@ -6,6 +6,7 @@ import megalodonte.components.Select;
 import minastex_pedidos.Components;
 import minastex_pedidos.Store;
 import minastex_pedidos.data.Data;
+import minastex_pedidos.data.InputType;
 
 public final class ClientForm {
         public final State<String> name, document, phone, email, notes, formaPagamento, prazo, frete;
@@ -18,13 +19,13 @@ public final class ClientForm {
         }
         public Component render() { return Components.form("Cliente",
                 Components.field("Nome/razão social", name),
-                Components.field("CPF/CNPJ", document, minastex_pedidos.data.InputType.CPF_CNPJ),
-                Components.field("Telefone", phone, minastex_pedidos.data.InputType.PHONE),
+                Components.field("CPF/CNPJ", document, InputType.CPF_CNPJ),
+                Components.field("Telefone", phone, InputType.PHONE),
                 Components.field("E-mail", email),
                 Components.field("Observações", notes),
                 Components.select("Formas de pagamento", Data.formasPgt, formaPagamento),
                 Components.field("Prazo", prazo),
-                Components.field("Frete", frete)
+                Components.field("Frete", frete, InputType.CURRENCY)
                 );
         }
     }

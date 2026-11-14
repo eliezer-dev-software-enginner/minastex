@@ -1,5 +1,6 @@
 package minastex_pedidos;
 
+import pack.utilities.CurrencyPack;
 import pack.utilities.FormatterPack;
 import pack.utilities.pdf.DataPdf;
 
@@ -31,8 +32,9 @@ final class OrderPdf {
                 "logo", value(company.logo),
                 "name", value(company.name),
                 "legalLine", legalLine(company),
-                "contactLine", join(company.phone, company.email, company.address),
-                "website", value(company.website)
+                "contactLine", "Contato: "+ join(company.phone, company.email),
+                "website", value(company.website),
+                "endereco", "Endereço: " + value(company.address)
         ));
         data.put("clientLine", join("Cliente: " + value(order.clientName), order.clientDocument));
         data.put("groups", order.groups.stream().map(OrderPdf::group).toList());
@@ -40,13 +42,14 @@ final class OrderPdf {
         data.put("ipi", "IPI (" + order.ipiPercent.toPlainString() + "%): " + Money.money(Store.ipi(order)));
         data.put("total", "TOTAL: " + Money.money(Store.total(order)));
         data.put("peso", "Peso: " + value(order.weight));
-        data.put("frete", "Frete: " + value(order.freight));
         data.put("payment", "Pagamento: " + value(order.payment));
+        data.put("frete", "Frete: " + CurrencyPack.toBRLCurrency(CurrencyPack.deCentavosParaReal(order.freight)));
         data.put("prazo", "Prazo: " + value(order.paymentTerm));
         data.put("pickup", optionalLine("Retirada: ", order.pickupDate));
         data.put("notes", optionalLine("Observações: ", order.notes));
         data.put("showBank", order.includeBank && !order.bankText.isBlank());
         data.put("bankText", value(order.bankText));
+        data.put("pix", "PIX: " + value(order.pixAccount));
         return data;
     }
 
