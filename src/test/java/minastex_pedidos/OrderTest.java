@@ -60,12 +60,45 @@ class OrderTest {
         assertEquals(2, new Store(directory.resolve("data.json")).nextNumber());
     }
 
+    @Test void exportsBrandedSinglePageOrder() throws Exception {
+        Store store = new Store(directory.resolve("branded-data.json"));
+        Store.Order order = new Store.Order();
+        order.number = 37901; order.date = "2026-10-28";
+        order.clientName = "PLAYART Digital Material Publicitário Eirelli";
+        order.clientDocument = "30617731000141"; order.clientPhone = "32988679585";
+        order.clientEmail = "compras@playart.com.br"; order.payment = "À vista (PIX)";
+        order.paymentTerm = "Retirada"; order.freight = "0";
+        order.notes = "Produção conforme medidas conferidas pelo cliente.";
+        Store.Group group = new Store.Group();
+        group.materialName = "Pré Cortado MDF CRU"; group.price = new BigDecimal("14.42");
+        Store.Item item = new Store.Item();
+        item.length = new BigDecimal("0.900"); item.width = new BigDecimal("0.600"); item.quantity = 80;
+        group.items.add(item); order.groups.add(group);
+        Path pdf = Path.of("build/reports/pdf-preview/order-branded.pdf");
+        Files.createDirectories(pdf.getParent());
+
+        OrderPdf.write(order, store.data.company, pdf);
+
+        try (PDDocument document = PDDocument.load(pdf.toFile())) {
+            assertEquals(1, document.getNumberOfPages());
+            String text = new PDFTextStripper().getText(document);
+            assertTrue(text.contains("PLAYART Digital Material Publicitário Eirelli"));
+            assertTrue(text.contains("Pré Cortado MDF CRU"));
+            assertTrue(text.contains("80 peças"));
+            assertTrue(text.contains("CONDIÇÕES COMERCIAIS"));
+            ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
+                    Path.of("build/reports/pdf-preview/order-branded-page-1.png").toFile());
+        }
+    }
+
     @Test void exportsPagedPdfWithOptionalBankDetails() throws Exception {
         Store store = new Store(directory.resolve("data.json"));
         store.data.company.legalName = "MINASTEX IND. DE CORTE E PAINEIS LTDA";
         store.data.company.document = "06340287000185";
         Store.Order order = new Store.Order();
-        order.number = 1; order.date = "2026-11-10"; order.clientName = "Cliente Minastex"; order.includeBank = true;
+        order.number = 1; order.date = "2026-11-10"; order.clientName = "Cliente Minastex";
+        order.clientDocument = "30617731000141"; order.clientPhone = "32988679585";
+        order.clientEmail = "compras@cliente.com.br"; order.includeBank = true;
         order.bankText = "Banco Teste | PIX abc123";
         Store.Group group = new Store.Group(); group.materialName = "Branco Gelo MTX";
         group.price = new BigDecimal("12.94");
@@ -80,12 +113,15 @@ class OrderTest {
         try (PDDocument document = PDDocument.load(pdf.toFile())) {
             assertTrue(document.getNumberOfPages() > 1);
             String text = new PDFTextStripper().getText(document);
-            assertTrue(text.startsWith("MINASTEX - Pedido Nº 1 · 2026-11-10"));
-            assertEquals(document.getNumberOfPages(), text.split("MINASTEX - Pedido Nº 1 · 2026-11-10", -1).length - 1);
+            assertTrue(text.startsWith("PEDIDO"));
+            assertEquals(document.getNumberOfPages(), text.split("Nº 1", -1).length - 1);
+            assertEquals(document.getNumberOfPages(), text.split("10 de novembro de 2026", -1).length - 1);
             assertTrue(text.contains("Cliente Minastex"));
-            assertTrue(text.contains(Store.Company.DEFAULT_WEBSITE));
-            assertTrue(text.contains(Store.Company.DEFAULT_EMAIL));
-            assertTrue(text.contains("MINASTEX IND. DE CORTE E PAINEIS LTDA - 06.340.287/0001-85"));
+            assertTrue(text.contains("30.617.731/0001-41"));
+            assertTrue(text.contains("(32) 98867-9585"));
+            assertTrue(text.contains("compras@cliente.com.br"));
+            assertTrue(text.contains("ITENS DO PEDIDO"));
+            assertTrue(text.contains("CONDIÇÕES COMERCIAIS"));
             assertTrue(text.contains("Banco Teste"));
             Path preview = Path.of("build/reports/pdf-preview/order-page-1.png");
             Files.createDirectories(preview.getParent());

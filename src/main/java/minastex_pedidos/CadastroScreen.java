@@ -9,7 +9,7 @@ import megalodonte.base.components.Ref;
 import megalodonte.base.state.State;
 import megalodonte.components.DesktopDialogs;
 import megalodonte.components.SimpleTable;
-import megalodonte.props.ButtonVariant;
+import megalodonte.common_platform.ButtonVariant;
 import megalodonte.props.SimpleTableProps;
 import minastex_pedidos.forms.AccountForm;
 import minastex_pedidos.forms.ClientForm;

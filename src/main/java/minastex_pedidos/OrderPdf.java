@@ -7,13 +7,20 @@ import pack.utilities.pdf.DataPdf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /** Maps the order domain to the data consumed by the versioned PDF template. */
 final class OrderPdf {
     private static final String TEMPLATE = "/pdf/order.jsonc";
+    private static final DateTimeFormatter LONG_DATE = DateTimeFormatter
+            .ofPattern("d 'de' MMMM 'de' yyyy", Locale.forLanguageTag("pt-BR"));
 
     private OrderPdf() {
     }
@@ -28,6 +35,11 @@ final class OrderPdf {
     private static Map<String, Object> data(Store.Order order, Store.Company company) {
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("title", "MINASTEX - Pedido Nº " + order.number + " · " + order.date);
+        data.put("order", Map.of(
+                "label", "PEDIDO",
+                "number", "Nº " + order.number,
+                "date", longDate(order.date)
+        ));
         data.put("company", Map.of(
                 "logo", value(company.logo),
                 "name", value(company.name),
@@ -36,49 +48,56 @@ final class OrderPdf {
                 "website", value(company.website),
                 "endereco", "Endereço: " + value(company.address)
         ));
-        data.put("clientLine", join("Cliente: " + value(order.clientName), order.clientDocument));
-        data.put("groups", order.groups.stream().map(OrderPdf::group).toList());
-        data.put("subtotal", "Subtotal: " + Money.money(Store.subtotal(order)));
-        data.put("ipi", "IPI (" + order.ipiPercent.toPlainString() + "%): " + Money.money(Store.ipi(order)));
-        data.put("total", "TOTAL: " + Money.money(Store.total(order)));
-        data.put("peso", "Peso: " + value(order.weight));
-        data.put("payment", "Pagamento: " + value(order.payment));
-        data.put("frete", "Frete: " + CurrencyPack.toBRLCurrency(CurrencyPack.deCentavosParaReal(order.freight)));
-        data.put("prazo", "Prazo: " + value(order.paymentTerm));
-        data.put("pickup", optionalLine("Retirada: ", order.pickupDate));
-        data.put("notes", optionalLine("Observações: ", order.notes));
+        data.put("client", Map.of(
+                "name", value(order.clientName),
+                "document", FormatterPack.formatCpfCnpj(order.clientDocument),
+                "phone", FormatterPack.formatPhone(order.clientPhone),
+                "email", value(order.clientEmail)
+        ));
+        data.put("items", items(order));
+        data.put("subtotal", Money.money(Store.subtotal(order)));
+        data.put("ipiLabel", "IPI (" + order.ipiPercent.toPlainString() + "%)");
+        data.put("ipi", Money.money(Store.ipi(order)));
+        data.put("total", Money.money(Store.total(order)));
+        data.put("peso", value(order.weight));
+        data.put("payment", value(order.payment));
+        data.put("frete", CurrencyPack.toBRLCurrency(CurrencyPack.deCentavosParaReal(order.freight)));
+        data.put("prazo", value(order.paymentTerm));
+        data.put("pickup", value(order.pickupDate));
+        data.put("notes", value(order.notes));
         data.put("showBank", order.includeBank && !order.bankText.isBlank());
         data.put("bankText", value(order.bankText));
-        data.put("pix", "PIX: " + value(order.pixAccount));
+        data.put("pix", value(order.pixAccount));
         return data;
     }
 
-    private static Map<String, Object> group(Store.Group group) {
-        return Map.of(
-                "title", value(group.materialName) + "  ·  " + Money.money(group.price) + "/m²",
-                "items", group.items.stream().map(item -> item(item, group)).toList(),
-                "total", "Total do grupo: " + Money.area(Store.groupArea(group))
-                        + "   ·   " + Money.money(Store.groupValue(group))
-        );
+    private static List<Map<String, String>> items(Store.Order order) {
+        List<Map<String, String>> rows = new ArrayList<>();
+        for (Store.Group group : order.groups) {
+            for (Store.Item item : group.items) rows.add(item(item, group));
+        }
+        return rows;
     }
 
     private static Map<String, String> item(Store.Item item, Store.Group group) {
+        var unitValue = item.length.multiply(item.width).multiply(group.price);
         return Map.of(
-                "length", item.length.toPlainString() + " m",
-                "width", item.width.toPlainString() + " m",
-                "quantity", Integer.toString(item.quantity),
-                "area", Money.area(Store.area(item)),
+                "description", value(group.materialName) + " · " + item.length.toPlainString()
+                        + " × " + item.width.toPlainString() + " m",
+                "quantity", item.quantity + (item.quantity == 1 ? " peça" : " peças"),
+                "unitPrice", Money.money(unitValue),
                 "value", Money.money(Store.itemValue(item, group))
         );
+    }
+
+    private static String longDate(String value) {
+        try { return LocalDate.parse(value).format(LONG_DATE); }
+        catch (DateTimeParseException ignored) { return value(value); }
     }
 
     private static String legalLine(Store.Company company) {
         String document = FormatterPack.formatCnpj(company.document);
         return value(company.legalName) + (document.isBlank() ? "" : " - " + document);
-    }
-
-    private static String optionalLine(String label, String value) {
-        return value == null || value.isBlank() ? "" : label + value.trim();
     }
 
     private static String join(String... values) {

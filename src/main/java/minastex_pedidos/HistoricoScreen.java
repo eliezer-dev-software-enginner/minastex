@@ -8,7 +8,7 @@ import megalodonte.base.components.Ref;
 import megalodonte.base.state.State;
 import megalodonte.components.SimpleTable;
 import megalodonte.components.inputs.Input;
-import megalodonte.props.ButtonVariant;
+import megalodonte.common_platform.ButtonVariant;
 import megalodonte.props.SimpleTableProps;
 
 import java.time.LocalDate;

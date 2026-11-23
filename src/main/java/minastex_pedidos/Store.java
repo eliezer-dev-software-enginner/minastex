@@ -146,7 +146,8 @@ public final class Store {
         public List<Item> items = new ArrayList<>();
     }
     public static final class Order {
-        public String id = Store.id(), clientId = "", clientName = "", clientDocument = "", date = LocalDate.now().toString();
+        public String id = Store.id(), clientId = "", clientName = "", clientDocument = "",
+                clientPhone = "", clientEmail = "", date = LocalDate.now().toString();
         public int number;
         public BigDecimal ipiPercent = new BigDecimal("3.25");
         public String weight = "", freight = "", payment = "", paymentTerm = "", pickupDate = "", notes = "";

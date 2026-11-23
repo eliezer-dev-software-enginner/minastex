@@ -14,7 +14,7 @@ import megalodonte.components.StateView;
 import megalodonte.components.Text;
 import megalodonte.components.layout_components.Container;
 import megalodonte.components.layout_components.Row;
-import megalodonte.props.ButtonVariant;
+import megalodonte.common_platform.ButtonVariant;
 import megalodonte.props.ContainerProps;
 import megalodonte.props.RowProps;
 import megalodonte.props.TextProps;

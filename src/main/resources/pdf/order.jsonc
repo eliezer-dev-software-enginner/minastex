@@ -1,67 +1,139 @@
 {
-  // O aplicativo fornece dados; este arquivo controla o layout do pedido.
-  "page": { "size": "A4", "orientation": "PORTRAIT", "margin": 42 },
+  // Identidade inspirada no pedido impresso da Minastex; dados continuam externos.
+  "page": { "size": "A4", "orientation": "PORTRAIT", "margin": 40 },
   "fonts": {
     "regular": "/pack/utilities/pdf/fonts/DejaVuSans.ttf",
     "bold": "/pack/utilities/pdf/fonts/DejaVuSans-Bold.ttf"
   },
   "pageHeader": [
-    { "type": "TEXT", "value": "${title}", "fontSize": 12, "bold": true, "spacingAfter": 10 }
-  ],
-  "body": [
     {
-      "type": "IMAGE", "path": "${company.logo}",
-      "fallbackResource": "/assets/minastex-logo.png",
-      "maxWidth": 120, "maxHeight": 60, "spacingAfter": 8
-    },
-    { "type": "TEXT", "value": "${company.name}", "fontSize": 18, "bold": true, "spacingAfter": 3 },
-    { "type": "TEXT", "value": "${company.legalLine}", "fontSize": 9, "spacingAfter": 3 },
-	{ "type": "TEXT", "value": "DADOS DE CONTATO", "fontSize": 10, "bold": true, "spacingAfter": 4 },
-    { "type": "TEXT", "value": "${company.contactLine}", "fontSize": 9, "spacingAfter": 3 },
-	{ "type": "TEXT", "value": "${company.endereco}", "fontSize": 9, "spacingAfter": 3 },
-    { "type": "TEXT", "value": "${company.website}", "fontSize": 9, "spacingAfter": 12 },
-    { "type": "TEXT", "value": "${clientLine}", "fontSize": 11, "spacingAfter": 4 },
-    { "type": "LINE", "spacingAfter": 14 },
-    {
-      "type": "REPEAT", "path": "groups", "body": [
-        { "type": "TEXT", "value": "${title}", "fontSize": 12, "bold": true, "spacingAfter": 4 },
-        {
-          "type": "TABLE", "rowsPath": "items", "fontSize": 9, "headerFontSize": 9,
-          "rowHeight": 22, "cellPadding": 4, "spacingAfter": 14,
-          "columns": [
-            { "header": "Comprimento", "value": "${length}", "weight": 103 },
-            { "header": "Largura", "value": "${width}", "weight": 100 },
-            { "header": "Qtd.", "value": "${quantity}", "weight": 55 },
-            { "header": "Metragem", "value": "${area}", "weight": 120 },
-            { "header": "Valor", "value": "${value}", "weight": 133 }
-          ]
-        },
-        { "type": "TEXT", "value": "${total}", "fontSize": 10, "bold": true, "spacingAfter": 14 }
+      "type": "COLUMNS", "gap": 22, "minHeight": 68, "spacingAfter": 5,
+      "columns": [
+        { "weight": 3, "body": [
+          { "type": "IMAGE", "path": "${company.logo}", "fallbackResource": "/assets/minastex-logo.png",
+            "maxWidth": 155, "maxHeight": 58, "spacingAfter": 0 }
+        ]},
+        { "weight": 2, "body": [
+          { "type": "TEXT", "value": "${order.label}", "fontSize": 18, "bold": true,
+            "align": "RIGHT", "color": "#1F4E89", "spacingAfter": 3 },
+          { "type": "TEXT", "value": "${order.number}", "fontSize": 9, "bold": true,
+            "align": "RIGHT", "color": "#1F4E89", "spacingAfter": 2 },
+          { "type": "TEXT", "value": "${order.date}", "fontSize": 8,
+            "align": "RIGHT", "color": "#46566A", "spacingAfter": 0 }
+        ]}
       ]
     },
-    { "type": "SPACER", "height": 6 },
-    { "type": "TEXT", "value": "${subtotal}", "fontSize": 11, "bold": true, "spacingAfter": 4 },
-    { "type": "TEXT", "value": "${ipi}", "fontSize": 11, "spacingAfter": 4 },
-    { "type": "TEXT", "value": "${total}", "fontSize": 16, "bold": true, "spacingAfter": 15 },
-    { "type": "TEXT", "value": "${peso}", "fontSize": 10, "spacingAfter": 4 },
-    { "type": "TEXT", "value": "${payment}", "fontSize": 10, "spacingAfter": 4 },
-	{ "type": "IF", "path": "frete", "body": [
-	  { "type": "TEXT", "value": "${frete}", "fontSize": 10, "spacingAfter": 4 }
-	]},
+    { "type": "LINE", "width": 2, "color": "#1F4E89", "spacingAfter": 12 }
+  ],
+  "body": [
+    { "type": "BAND", "value": "DADOS DO CLIENTE", "height": 22,
+      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 8 },
+    { "type": "TEXT", "value": "CLIENTE", "fontSize": 7, "bold": true,
+      "color": "#68788C", "spacingAfter": 2 },
+    { "type": "TEXT", "value": "${client.name}", "fontSize": 13, "bold": true,
+      "color": "#1F4E89", "spacingAfter": 7 },
+    {
+      "type": "COLUMNS", "gap": 18, "minHeight": 43, "spacingAfter": 7,
+      "columns": [
+        { "weight": 3, "body": [
+          { "type": "TEXT", "value": "CPF / CNPJ", "fontSize": 7, "bold": true,
+            "color": "#68788C", "spacingAfter": 2 },
+          { "type": "TEXT", "value": "${client.document}", "fontSize": 9, "bold": true, "spacingAfter": 0 }
+        ]},
+        { "weight": 2, "body": [
+          { "type": "TEXT", "value": "TELEFONE", "fontSize": 7, "bold": true,
+            "color": "#68788C", "spacingAfter": 2 },
+          { "type": "TEXT", "value": "${client.phone}", "fontSize": 9, "bold": true, "spacingAfter": 0 }
+        ]},
+        { "weight": 2, "body": [
+          { "type": "TEXT", "value": "E-MAIL", "fontSize": 7, "bold": true,
+            "color": "#68788C", "spacingAfter": 2 },
+          { "type": "TEXT", "value": "${client.email}", "fontSize": 8, "bold": true, "spacingAfter": 0 }
+        ]}
+      ]
+    },
+    { "type": "BAND", "value": "ITENS DO PEDIDO", "height": 22,
+      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 0 },
+    {
+      "type": "TABLE", "rowsPath": "items", "fontSize": 8.5, "headerFontSize": 8,
+      "rowHeight": 27, "cellPadding": 6, "spacingAfter": 9,
+      "headerBackgroundColor": "#245A9B", "headerTextColor": "#FFFFFF",
+      "textColor": "#263445", "alternateRowColor": "#F3F6FA",
+      "borderColor": "#D7DFE9", "borderWidth": 0.45,
+      "columns": [
+        { "header": "DESCRIÇÃO", "value": "${description}", "weight": 5 },
+        { "header": "QUANTIDADE", "value": "${quantity}", "weight": 2, "align": "CENTER" },
+        { "header": "PREÇO UNITÁRIO", "value": "${unitPrice}", "weight": 2, "align": "RIGHT" },
+        { "header": "TOTAL", "value": "${value}", "weight": 2, "align": "RIGHT" }
+      ]
+    },
+    {
+      "type": "COLUMNS", "gap": 14, "minHeight": 70, "spacingAfter": 8,
+      "columns": [
+        { "weight": 3, "body": [
+          { "type": "IF", "path": "notes", "body": [
+            { "type": "TEXT", "value": "OBSERVAÇÕES", "fontSize": 7, "bold": true,
+              "color": "#68788C", "spacingAfter": 2 },
+            { "type": "TEXT", "value": "${notes}", "fontSize": 8, "spacingAfter": 0 }
+          ]}
+        ]},
+        { "weight": 2, "body": [
+          { "type": "COLUMNS", "gap": 8, "minHeight": 14, "columns": [
+            { "weight": 1, "body": [{ "type": "TEXT", "value": "SUBTOTAL", "fontSize": 8, "bold": true, "align": "RIGHT" }]},
+            { "weight": 1, "body": [{ "type": "TEXT", "value": "${subtotal}", "fontSize": 9, "align": "RIGHT" }]}
+          ]},
+          { "type": "COLUMNS", "gap": 8, "minHeight": 14, "columns": [
+            { "weight": 1, "body": [{ "type": "TEXT", "value": "${ipiLabel}", "fontSize": 8, "bold": true, "align": "RIGHT" }]},
+            { "weight": 1, "body": [{ "type": "TEXT", "value": "${ipi}", "fontSize": 9, "align": "RIGHT" }]}
+          ]},
+          { "type": "BAND", "value": "TOTAL DO PEDIDO   ${total}", "height": 25,
+            "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 10,
+            "bold": true, "align": "RIGHT", "spacingAfter": 0 }
+        ]}
+      ]
+    },
+    { "type": "BAND", "value": "CONDIÇÕES COMERCIAIS", "height": 22,
+      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 8 },
+    {
+      "type": "COLUMNS", "gap": 15, "minHeight": 52, "spacingAfter": 7,
+      "columns": [
+        { "weight": 1, "body": [
+          { "type": "LINE", "width": 2, "color": "#E3B421", "spacingAfter": 12 },
+          { "type": "TEXT", "value": "FORMA DE PAGAMENTO", "fontSize": 7, "bold": true,
+            "color": "#68788C", "spacingAfter": 2 },
+          { "type": "TEXT", "value": "${payment}", "fontSize": 10, "bold": true,
+            "color": "#1F4E89", "spacingAfter": 0 }
+        ]},
+        { "weight": 1, "body": [
+          { "type": "LINE", "width": 2, "color": "#E3B421", "spacingAfter": 12 },
+          { "type": "TEXT", "value": "FRETE", "fontSize": 7, "bold": true,
+            "color": "#68788C", "spacingAfter": 2 },
+          { "type": "TEXT", "value": "${frete}", "fontSize": 10, "bold": true,
+            "color": "#1F4E89", "spacingAfter": 0 }
+        ]},
+        { "weight": 1, "body": [
+          { "type": "LINE", "width": 2, "color": "#E3B421", "spacingAfter": 12 },
+          { "type": "TEXT", "value": "PRAZO", "fontSize": 7, "bold": true,
+            "color": "#68788C", "spacingAfter": 2 },
+          { "type": "TEXT", "value": "${prazo}", "fontSize": 10, "bold": true,
+            "color": "#1F4E89", "spacingAfter": 0 }
+        ]}
+      ]
+    },
     { "type": "IF", "path": "pickup", "body": [
-      { "type": "TEXT", "value": "${pickup}", "fontSize": 10, "spacingAfter": 4 }
+      { "type": "TEXT", "value": "Retirada: ${pickup}", "fontSize": 8, "spacingAfter": 4 }
     ]},
-    { "type": "IF", "path": "prazo", "body": [
-      { "type": "TEXT", "value": "${prazo}", "fontSize": 10, "spacingAfter": 4 }
-    ]},
-    { "type": "IF", "path": "notes", "body": [
-      { "type": "TEXT", "value": "${notes}", "fontSize": 10, "spacingAfter": 4 }
+    { "type": "IF", "path": "peso", "body": [
+      { "type": "TEXT", "value": "Peso: ${peso}", "fontSize": 8, "spacingAfter": 4 }
     ]},
     { "type": "IF", "path": "showBank", "body": [
-      { "type": "SPACER", "height": 8 },
-      { "type": "TEXT", "value": "DADOS BANCÁRIOS", "fontSize": 10, "bold": true, "spacingAfter": 4 },
-      { "type": "TEXT", "value": "${bankText}", "fontSize": 10, "spacingAfter": 0 },
-	  { "type": "TEXT", "value": "${pix}", "fontSize": 10, "spacingAfter": 0 },
+      { "type": "SPACER", "height": 5 },
+      { "type": "BAND", "value": "DADOS BANCÁRIOS", "height": 20,
+        "backgroundColor": "#EEF3F9", "color": "#1F4E89", "fontSize": 8, "bold": true, "spacingAfter": 5 },
+      { "type": "TEXT", "value": "${bankText}", "fontSize": 8, "spacingAfter": 3 },
+      { "type": "IF", "path": "pix", "body": [
+        { "type": "TEXT", "value": "PIX: ${pix}", "fontSize": 8, "spacingAfter": 0 }
+      ]}
     ]}
   ]
 }

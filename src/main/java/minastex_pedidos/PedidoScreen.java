@@ -11,7 +11,7 @@ import megalodonte.components.LineHorizontal;
 import megalodonte.components.Select;
 import megalodonte.components.Text;
 import megalodonte.components.layout_components.Column;
-import megalodonte.props.ButtonVariant;
+import megalodonte.common_platform.ButtonVariant;
 import megalodonte.props.ColumnProps;
 import megalodonte.props.DatePickerProps;
 import java.util.Locale;

@@ -7,7 +7,7 @@ import megalodonte.base.components.Component;
 import megalodonte.base.components.ScreenComponent;
 import megalodonte.base.state.State;
 import megalodonte.components.FilePicker;
-import megalodonte.props.ButtonVariant;
+import megalodonte.common_platform.ButtonVariant;
 
 import java.math.BigDecimal;
 import java.nio.file.Path;

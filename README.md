@@ -54,14 +54,16 @@ arquivo, execute com `-Dminastex.data=/caminho/dados.json` na JVM.
 
 O exemplo 2,130 × 0,630 × 240 a R$ 12,94/m² resulta em 322,06 m² exibidos,
 R$ 4.167,40 de subtotal, R$ 135,44 de IPI a 3,25% e R$ 4.302,84 no total.
-Essa política deve ser confrontada com os PDFs comerciais reais da Minastex;
-eles não vieram junto do prompt recebido.
+Essa política foi confrontada com um pedido comercial real da Minastex. O PDF
+preserva os cálculos do aplicativo e adota a mesma hierarquia visual: logomarca e
+identificação do pedido, cliente, itens, total e condições comerciais.
 
 ## Desenvolvimento
 
 `./gradlew test` valida os cálculos, a persistência de snapshots e o PDF com
-paginação, título contendo número/data do pedido, tabela em grade e dados
-bancários opcionais. O PDF é gerado pelo `DataPdf` de `pack-utilities`; o layout
+paginação, cabeçalho contendo número/data do pedido, identidade azul/amarela,
+tabela comercial, dados do cliente e dados bancários opcionais. O PDF é gerado
+pelo `DataPdf` de `pack-utilities`; o layout
 orientado a dados está em `src/main/resources/pdf/order.jsonc`, sem coordenadas
 PDFBox no código da aplicação. [Veja a arquitetura do documento](docs/PDF-ORIENTADO-A-DADOS.md).
 `./gradlew run` abre a interface.
