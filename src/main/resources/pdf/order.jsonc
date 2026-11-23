@@ -98,21 +98,21 @@
       "type": "COLUMNS", "gap": 20, "minHeight": 60, "spacingAfter": 10,
       "columns": [
         { "weight": 1, "body": [
-          { "type": "LINE", "width": 2, "color": "#E3B421", "spacingAfter": 12 },
+          { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
           { "type": "TEXT", "value": "FORMA DE PAGAMENTO", "fontSize": 7, "bold": true,
             "color": "#68788C", "spacingAfter": 2 },
           { "type": "TEXT", "value": "${payment}", "fontSize": 10, "bold": true,
             "color": "#1F4E89", "spacingAfter": 0 }
         ]},
         { "weight": 1, "body": [
-          { "type": "LINE", "width": 2, "color": "#E3B421", "spacingAfter": 12 },
+          { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
           { "type": "TEXT", "value": "FRETE", "fontSize": 7, "bold": true,
             "color": "#68788C", "spacingAfter": 2 },
           { "type": "TEXT", "value": "${frete}", "fontSize": 10, "bold": true,
             "color": "#1F4E89", "spacingAfter": 0 }
         ]},
         { "weight": 1, "body": [
-          { "type": "LINE", "width": 2, "color": "#E3B421", "spacingAfter": 12 },
+          { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
           { "type": "TEXT", "value": "PRAZO", "fontSize": 7, "bold": true,
             "color": "#68788C", "spacingAfter": 2 },
           { "type": "TEXT", "value": "${prazo}", "fontSize": 10, "bold": true,
