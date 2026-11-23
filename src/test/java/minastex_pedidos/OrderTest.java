@@ -160,6 +160,78 @@ class OrderTest {
         }
     }
 
+    @Test void exportsCompleteOrderWithEveryAvailableField() throws Exception {
+        Store store = new Store(directory.resolve("complete-order-data.json"));
+        store.data.company.name = "Minastex";
+        store.data.company.legalName = "MINASTEX IND. DE CORTE E PAINÉIS LTDA";
+        store.data.company.document = "06340287000185";
+        store.data.company.phone = "3235324583";
+        store.data.company.email = "minastex@minastex.com.br";
+        store.data.company.website = "www.minastex.com.br";
+        store.data.company.address = "Ubá - Minas Gerais";
+        Store.Order order = new Store.Order();
+        order.number = 48021; order.date = "2026-11-23";
+        order.clientName = "Cliente Completo Indústria e Comércio Ltda";
+        order.clientDocument = "12345678000190";
+        order.clientPhone = "32999998888";
+        order.clientEmail = "compras@cliente.com.br";
+        order.clientAddress = "Avenida Governador Valadares, 1500 - Centro - Ubá/MG - CEP 36500-000";
+        order.weight = "1.250 kg";
+        order.freight = "18550";
+        order.payment = "50% na aprovação e 50% na retirada";
+        order.paymentTerm = "15 dias úteis";
+        order.pickupDate = "10/12/2026";
+        order.notes = "Produzir conforme medidas conferidas. Material identificado por lote e protegido para transporte.";
+        order.includeBank = true;
+        order.bankText = "Banco Cooperativo | Agência 0001 | Conta 12345-6 | MINASTEX IND. DE CORTE E PAINÉIS LTDA";
+        order.pixAccount = "06.340.287/0001-85";
+        order.ipiPercent = new BigDecimal("3.25");
+
+        Store.Group cru = new Store.Group();
+        cru.materialName = "Pré Cortado MDF CRU 25 mm"; cru.price = new BigDecimal("14.42");
+        Store.Item painelMaior = new Store.Item();
+        painelMaior.length = new BigDecimal("0.900"); painelMaior.width = new BigDecimal("0.600");
+        painelMaior.quantity = 80; cru.items.add(painelMaior);
+        Store.Item painelMenor = new Store.Item();
+        painelMenor.length = new BigDecimal("0.450"); painelMenor.width = new BigDecimal("0.300");
+        painelMenor.quantity = 40; cru.items.add(painelMenor);
+        order.groups.add(cru);
+
+        Store.Group branco = new Store.Group();
+        branco.materialName = "MDF Branco TX 18 mm"; branco.price = new BigDecimal("18.90");
+        Store.Item acabamento = new Store.Item();
+        acabamento.length = new BigDecimal("1.200"); acabamento.width = new BigDecimal("0.550");
+        acabamento.quantity = 24; branco.items.add(acabamento); order.groups.add(branco);
+
+        Path pdf = Path.of("build/reports/pdf-preview/order-complete.pdf");
+        Files.createDirectories(pdf.getParent());
+
+        OrderPdf.write(order, store.data.company, pdf);
+
+        try (PDDocument document = PDDocument.load(pdf.toFile())) {
+            assertEquals(1, document.getNumberOfPages());
+            String text = new PDFTextStripper().getText(document);
+            String compact = text.replaceAll("\\s+", "");
+            assertAll(
+                    () -> assertTrue(text.contains("Nº 48021")),
+                    () -> assertTrue(text.contains("Cliente Completo Indústria e Comércio Ltda")),
+                    () -> assertTrue(text.contains("12.345.678/0001-90")),
+                    () -> assertTrue(text.contains("(32) 99999-8888")),
+                    () -> assertTrue(compact.contains("compras@cliente.com.br")),
+                    () -> assertTrue(text.contains("Avenida Governador Valadares")),
+                    () -> assertTrue(text.contains("Pré Cortado MDF CRU 25 mm")),
+                    () -> assertTrue(text.contains("MDF Branco TX 18 mm")),
+                    () -> assertTrue(compact.contains("50%naaprovaçãoe50%naretirada")),
+                    () -> assertTrue(text.contains("15 dias úteis")),
+                    () -> assertTrue(text.contains("Retirada: 10/12/2026")),
+                    () -> assertTrue(text.contains("Peso: 1.250 kg")),
+                    () -> assertTrue(text.contains("DADOS BANCÁRIOS")),
+                    () -> assertTrue(text.contains("PIX: 06.340.287/0001-85")));
+            ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
+                    Path.of("build/reports/pdf-preview/order-complete-page-1.png").toFile());
+        }
+    }
+
     @Test void exportsPagedPdfWithOptionalBankDetails() throws Exception {
         Store store = new Store(directory.resolve("data.json"));
         store.data.company.legalName = "MINASTEX IND. DE CORTE E PAINEIS LTDA";
