@@ -88,6 +88,7 @@ class OrderTest {
             assertTrue(text.contains("Praça Getúlio Vargas, 80 - Centro - Ubá/MG"));
             assertTrue(text.contains("Pré Cortado MDF CRU"));
             assertTrue(text.contains("0.900 × 0.600 m"));
+            assertTrue(text.contains("43,20 m²"));
             assertTrue(text.contains("80 peças"));
             assertTrue(text.contains("INFORMAÇÕES COMERCIAIS"));
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
@@ -226,6 +227,7 @@ class OrderTest {
                     () -> assertTrue(text.contains("Avenida Governador Valadares")),
                     () -> assertTrue(text.contains("Pré Cortado MDF CRU 25 mm")),
                     () -> assertTrue(text.contains("0.900 × 0.600 m")),
+                    () -> assertTrue(text.contains("43,20 m²")),
                     () -> assertTrue(text.contains("MDF Branco TX 18 mm")),
                     () -> assertTrue(compact.contains("50%naaprovaçãoe50%naretirada")),
                     () -> assertTrue(text.contains("15 dias úteis")),

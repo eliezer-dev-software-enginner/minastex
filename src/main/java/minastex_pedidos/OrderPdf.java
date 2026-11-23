@@ -90,12 +90,12 @@ final class OrderPdf {
     }
 
     private static Map<String, String> item(Store.Item item, Store.Group group) {
-        var unitValue = item.length.multiply(item.width).multiply(group.price);
         return Map.of(
                 "description", value(group.materialName) + " · " + item.length.toPlainString()
                         + " × " + item.width.toPlainString() + " m",
                 "quantity", item.quantity + (item.quantity == 1 ? " peça" : " peças"),
-                "unitPrice", Money.money(unitValue),
+                "area", Money.area(Store.area(item)),
+                "squareMeterPrice", Money.money(group.price),
                 "value", Money.money(Store.itemValue(item, group))
         );
     }

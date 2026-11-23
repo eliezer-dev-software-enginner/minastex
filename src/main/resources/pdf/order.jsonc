@@ -87,10 +87,11 @@
       "textColor": "#263445", "alternateRowColor": "#F3F6FA",
       "borderColor": "#D7DFE9", "borderWidth": 0.45,
       "columns": [
-        { "header": "DESCRIÇÃO", "value": "${description}", "weight": 5 },
-        { "header": "QUANTIDADE", "value": "${quantity}", "weight": 2, "align": "CENTER" },
-        { "header": "PREÇO UNITÁRIO", "value": "${unitPrice}", "weight": 2, "align": "RIGHT" },
-        { "header": "TOTAL", "value": "${value}", "weight": 2, "align": "RIGHT" }
+        { "header": "DESCRIÇÃO", "value": "${description}", "weight": 4.8 },
+        { "header": "QTD.", "value": "${quantity}", "weight": 1.4, "align": "CENTER" },
+        { "header": "METRAGEM", "value": "${area}", "weight": 1.5, "align": "RIGHT" },
+        { "header": "PREÇO/M²", "value": "${squareMeterPrice}", "weight": 1.4, "align": "RIGHT" },
+        { "header": "TOTAL", "value": "${value}", "weight": 1.6, "align": "RIGHT" }
       ]
     },
     {

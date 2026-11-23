@@ -27,7 +27,10 @@ O layout segue a referência comercial real fornecida pela Minastex: logomarca �
 esquerda, `PEDIDO`, número e data à direita, blocos azuis para cliente, itens e
 condições comerciais, detalhes verdes e total destacado. Os itens de grupos de
 acabamento são achatados em uma única tabela com descrição, dimensões lineares em
-metros, quantidade, preço unitário da peça e total. O cabeçalho
+metros, quantidade, metragem total em metros quadrados, preço por metro quadrado e
+total. A coluna `PREÇO/M²` preserva o preço comercial cadastrado no grupo; ela não
+é o valor calculado de uma peça. A metragem de cada linha é
+`comprimento × largura × quantidade`. O cabeçalho
 também apresenta razão social/CNPJ, endereço, telefone e e-mail cadastrados para a
 Minastex; valores ausentes são omitidos.
 
