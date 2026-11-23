@@ -7,11 +7,23 @@
   },
   "pageHeader": [
     {
-      "type": "COLUMNS", "gap": 26, "minHeight": 84, "spacingAfter": 7,
+      "type": "COLUMNS", "gap": 26, "minHeight": 172, "spacingAfter": 7,
       "columns": [
         { "weight": 3, "body": [
           { "type": "IMAGE", "path": "${company.logo}", "fallbackResource": "/assets/minastex-logo.png",
-            "maxWidth": 195, "maxHeight": 76, "spacingAfter": 0 }
+            "maxWidth": 285, "maxHeight": 130, "spacingAfter": 5 },
+          { "type": "IF", "path": "company.hasLegal", "body": [
+            { "type": "TEXT", "value": "${company.legalLine}", "fontSize": 6.5, "bold": true,
+              "color": "#1F4E89", "spacingAfter": 2 }
+          ]},
+          { "type": "IF", "path": "company.hasAddress", "body": [
+            { "type": "TEXT", "value": "${company.address}", "fontSize": 6.5,
+              "color": "#46566A", "spacingAfter": 2 }
+          ]},
+          { "type": "IF", "path": "company.hasContact", "body": [
+            { "type": "TEXT", "value": "${company.phone} · ${company.email}", "fontSize": 6.5,
+              "color": "#46566A", "spacingAfter": 0 }
+          ]}
         ]},
         { "weight": 2, "body": [
           { "type": "TEXT", "value": "${order.label}", "fontSize": 16, "bold": true,

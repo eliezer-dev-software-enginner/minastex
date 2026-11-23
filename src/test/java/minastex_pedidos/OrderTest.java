@@ -87,6 +87,7 @@ class OrderTest {
             assertTrue(text.contains("PLAYART Digital Material Publicitário Eirelli"));
             assertTrue(text.contains("Praça Getúlio Vargas, 80 - Centro - Ubá/MG"));
             assertTrue(text.contains("Pré Cortado MDF CRU"));
+            assertTrue(text.contains("0.900 × 0.600 m"));
             assertTrue(text.contains("80 peças"));
             assertTrue(text.contains("INFORMAÇÕES COMERCIAIS"));
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
@@ -214,12 +215,17 @@ class OrderTest {
             String compact = text.replaceAll("\\s+", "");
             assertAll(
                     () -> assertTrue(text.contains("Nº 48021")),
+                    () -> assertTrue(text.contains("MINASTEX IND. DE CORTE E PAINÉIS LTDA - 06.340.287/0001-85")),
+                    () -> assertTrue(text.contains("Ubá - Minas Gerais")),
+                    () -> assertTrue(text.contains("(32) 3532-4583")),
+                    () -> assertTrue(text.contains("minastex@minastex.com.br")),
                     () -> assertTrue(text.contains("Cliente Completo Indústria e Comércio Ltda")),
                     () -> assertTrue(text.contains("12.345.678/0001-90")),
                     () -> assertTrue(text.contains("(32) 99999-8888")),
                     () -> assertTrue(compact.contains("compras@cliente.com.br")),
                     () -> assertTrue(text.contains("Avenida Governador Valadares")),
                     () -> assertTrue(text.contains("Pré Cortado MDF CRU 25 mm")),
+                    () -> assertTrue(text.contains("0.900 × 0.600 m")),
                     () -> assertTrue(text.contains("MDF Branco TX 18 mm")),
                     () -> assertTrue(compact.contains("50%naaprovaçãoe50%naretirada")),
                     () -> assertTrue(text.contains("15 dias úteis")),
@@ -255,7 +261,7 @@ class OrderTest {
         try (PDDocument document = PDDocument.load(pdf.toFile())) {
             assertTrue(document.getNumberOfPages() > 1);
             String text = new PDFTextStripper().getText(document);
-            assertTrue(text.startsWith("PEDIDO"));
+            assertTrue(text.contains("PEDIDO"));
             assertEquals(document.getNumberOfPages(), text.split("Nº 1", -1).length - 1);
             assertEquals(document.getNumberOfPages(), text.split("10 de novembro de 2026", -1).length - 1);
             assertTrue(text.contains("Cliente Minastex"));

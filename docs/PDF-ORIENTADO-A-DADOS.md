@@ -23,9 +23,11 @@ motor não recebe classes Minastex, o que permite reutilizá-la em outros projet
 
 O layout segue a referência comercial real fornecida pela Minastex: logomarca à
 esquerda, `PEDIDO`, número e data à direita, blocos azuis para cliente, itens e
-condições comerciais, detalhes amarelos e total destacado. Os itens de grupos de
-acabamento são achatados em uma única tabela com descrição e medidas, quantidade,
-preço unitário da peça e total.
+condições comerciais, detalhes verdes e total destacado. Os itens de grupos de
+acabamento são achatados em uma única tabela com descrição, dimensões lineares em
+metros, quantidade, preço unitário da peça e total. O cabeçalho
+também apresenta razão social/CNPJ, endereço, telefone e e-mail cadastrados para a
+Minastex; valores ausentes são omitidos.
 
 Nome, CPF/CNPJ, telefone, e-mail e endereço do cliente são copiados para o pedido
 quando ele é salvo. Esse snapshot evita que uma edição futura do cadastro altere um documento

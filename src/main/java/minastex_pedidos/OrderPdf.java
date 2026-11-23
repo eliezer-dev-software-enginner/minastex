@@ -44,9 +44,13 @@ final class OrderPdf {
                 "logo", value(company.logo),
                 "name", value(company.name),
                 "legalLine", legalLine(company),
-                "contactLine", "Contato: "+ join(company.phone, company.email),
+                "phone", companyPhone(company.phone),
+                "email", value(company.email),
                 "website", value(company.website),
-                "endereco", "Endereço: " + value(company.address)
+                "address", value(company.address),
+                "hasLegal", !legalLine(company).isBlank(),
+                "hasContact", !value(company.phone).isBlank() || !value(company.email).isBlank(),
+                "hasAddress", !value(company.address).isBlank()
         ));
         data.put("client", Map.of(
                 "name", value(order.clientName),
@@ -104,6 +108,11 @@ final class OrderPdf {
     private static String legalLine(Store.Company company) {
         String document = FormatterPack.formatCnpj(company.document);
         return value(company.legalName) + (document.isBlank() ? "" : " - " + document);
+    }
+
+    private static String companyPhone(String phone) {
+        String clean = value(phone);
+        return clean.replaceAll("\\D", "").length() <= 11 ? FormatterPack.formatPhone(clean) : clean;
     }
 
     private static String join(String... values) {
