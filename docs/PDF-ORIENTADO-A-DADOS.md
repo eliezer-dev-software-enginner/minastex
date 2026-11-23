@@ -9,6 +9,8 @@ e pode ser migrado posteriormente, sem vincular a biblioteca ao domínio de pesa
 
 - `src/main/resources/pdf/order.jsonc` define página, fontes, cabeçalho, logomarca,
   faixas de seção, colunas, tabela, condições comerciais, cores e espaçamentos.
+- `src/main/resources/assets/minastex-logo-pdf.png` é a variante recortada da
+  identidade oficial usada no cabeçalho, sem as margens brancas do arquivo original.
 - `OrderPdf` transforma `Store.Order` e `Store.Company` em mapas com valores já
   calculados e formatados. Ele não conhece PDFBox nem coordenadas de desenho.
 - `DataPdf` interpreta o JSONC, resolve expressões `${campo}`, compõe faixas e

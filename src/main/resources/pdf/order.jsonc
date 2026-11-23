@@ -7,11 +7,11 @@
   },
   "pageHeader": [
     {
-      "type": "COLUMNS", "gap": 26, "minHeight": 172, "spacingAfter": 7,
+      "type": "COLUMNS", "gap": 26, "minHeight": 187, "spacingAfter": 7,
       "columns": [
         { "weight": 3, "body": [
-          { "type": "IMAGE", "path": "${company.logo}", "fallbackResource": "/assets/minastex-logo.png",
-            "maxWidth": 285, "maxHeight": 130, "spacingAfter": 5 },
+          { "type": "IMAGE", "path": "${company.logo}", "fallbackResource": "/assets/minastex-logo-pdf.png",
+            "maxWidth": 300, "maxHeight": 145, "spacingAfter": 5 },
           { "type": "IF", "path": "company.hasLegal", "body": [
             { "type": "TEXT", "value": "${company.legalLine}", "fontSize": 6.5, "bold": true,
               "color": "#1F4E89", "spacingAfter": 2 }
