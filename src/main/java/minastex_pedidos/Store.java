@@ -113,7 +113,8 @@ public final class Store {
         public Company company = new Company();
     }
     public static final class Client {
-        public String id = Store.id(), name = "", document = "", phone = "", email = "", notes = "", formaPagamento = "PIX", prazo = "", frete = "";
+        public String id = Store.id(), name = "", document = "", phone = "", email = "",
+                address = "", notes = "", formaPagamento = "PIX", prazo = "", frete = "";
         public boolean active = true;
         @Override public String toString() { return name; }
     }
@@ -147,7 +148,7 @@ public final class Store {
     }
     public static final class Order {
         public String id = Store.id(), clientId = "", clientName = "", clientDocument = "",
-                clientPhone = "", clientEmail = "", date = LocalDate.now().toString();
+                clientPhone = "", clientEmail = "", clientAddress = "", date = LocalDate.now().toString();
         public int number;
         public BigDecimal ipiPercent = new BigDecimal("3.25");
         public String weight = "", freight = "", payment = "", paymentTerm = "", pickupDate = "", notes = "";

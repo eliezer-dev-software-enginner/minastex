@@ -33,7 +33,7 @@
     { "type": "TEXT", "value": "${client.name}", "fontSize": 13, "bold": true,
       "color": "#1F4E89", "spacingAfter": 11 },
     {
-      "type": "COLUMNS", "gap": 22, "minHeight": 48, "spacingAfter": 12,
+      "type": "COLUMNS", "gap": 22, "minHeight": 48, "spacingAfter": 8,
       "columns": [
         { "weight": 3, "body": [
           { "type": "TEXT", "value": "CPF / CNPJ", "fontSize": 7, "bold": true,
@@ -52,6 +52,12 @@
         ]}
       ]
     },
+    { "type": "IF", "path": "client.address", "body": [
+      { "type": "TEXT", "value": "ENDEREÇO", "fontSize": 7, "bold": true,
+        "color": "#68788C", "spacingAfter": 2 },
+      { "type": "TEXT", "value": "${client.address}", "fontSize": 8.5,
+        "bold": true, "spacingAfter": 11 }
+    ]},
     { "type": "BAND", "value": "ITENS DO PEDIDO", "height": 22,
       "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 0 },
     {

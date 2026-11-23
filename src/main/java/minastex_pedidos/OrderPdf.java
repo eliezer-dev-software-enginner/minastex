@@ -52,7 +52,8 @@ final class OrderPdf {
                 "name", value(order.clientName),
                 "document", FormatterPack.formatCpfCnpj(order.clientDocument),
                 "phone", FormatterPack.formatPhone(order.clientPhone),
-                "email", value(order.clientEmail)
+                "email", value(order.clientEmail),
+                "address", value(order.clientAddress)
         ));
         data.put("items", items(order));
         data.put("subtotal", Money.money(Store.subtotal(order)));

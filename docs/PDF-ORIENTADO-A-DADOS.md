@@ -27,8 +27,8 @@ condições comerciais, detalhes amarelos e total destacado. Os itens de grupos 
 acabamento são achatados em uma única tabela com descrição e medidas, quantidade,
 preço unitário da peça e total.
 
-Nome, CPF/CNPJ, telefone e e-mail do cliente são copiados para o pedido quando ele
-é salvo. Esse snapshot evita que uma edição futura do cadastro altere um documento
+Nome, CPF/CNPJ, telefone, e-mail e endereço do cliente são copiados para o pedido
+quando ele é salvo. Esse snapshot evita que uma edição futura do cadastro altere um documento
 comercial histórico. Pedidos antigos continuam compatíveis e exibem em branco os
 campos de contato que ainda não existiam.
 

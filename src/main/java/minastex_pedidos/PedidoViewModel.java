@@ -91,6 +91,7 @@ final class PedidoViewModel {
         if (selected != null) {
             draft.clientId = selected.id; draft.clientName = selected.name; draft.clientDocument = selected.document;
             draft.clientPhone = selected.phone; draft.clientEmail = selected.email;
+            draft.clientAddress = selected.address;
         }
         draft.weight = weight.get().trim(); draft.freight = freight.get().trim();
         draft.payment = payment.get().trim(); draft.paymentTerm = paymentTerm.get().trim();

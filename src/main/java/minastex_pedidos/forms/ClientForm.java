@@ -9,10 +9,10 @@ import minastex_pedidos.data.Data;
 import minastex_pedidos.data.InputType;
 
 public final class ClientForm {
-        public final State<String> name, document, phone, email, notes, formaPagamento, prazo, frete;
+        public final State<String> name, document, phone, email, address, notes, formaPagamento, prazo, frete;
         public ClientForm(Store.Client c) {
             name = State.of(c.name); document = State.of(c.document); phone = State.of(c.phone);
-            email = State.of(c.email); notes = State.of(c.notes);
+            email = State.of(c.email); address = State.of(c.address); notes = State.of(c.notes);
             formaPagamento = State.of(c.formaPagamento);
             prazo = State.of(c.prazo);
             frete = State.of(c.frete);
@@ -22,6 +22,7 @@ public final class ClientForm {
                 Components.field("CPF/CNPJ", document, InputType.CPF_CNPJ),
                 Components.field("Telefone", phone, InputType.PHONE),
                 Components.field("E-mail", email),
+                Components.field("Endereço", address),
                 Components.field("Observações", notes),
                 Components.select("Formas de pagamento", Data.formasPgt, formaPagamento),
                 Components.field("Prazo", prazo),

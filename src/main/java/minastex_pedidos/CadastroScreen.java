@@ -82,7 +82,7 @@ final class CadastroScreen implements ScreenComponent {
             if (form.name.get().isBlank()) { AppController.alert("Informe o nome."); return; }
             client.name = form.name.get().trim(); client.document = form.document.get().trim();
             client.phone = form.phone.get().trim(); client.email = form.email.get().trim();
-            client.notes = form.notes.get().trim();
+            client.address = form.address.get().trim(); client.notes = form.notes.get().trim();
             client.formaPagamento = form.formaPagamento.get().trim();
             client.prazo = form.prazo.get().trim();
             client.frete = form.frete.get().trim();

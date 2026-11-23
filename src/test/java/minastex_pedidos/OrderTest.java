@@ -66,7 +66,9 @@ class OrderTest {
         order.number = 37901; order.date = "2026-10-28";
         order.clientName = "PLAYART Digital Material Publicitário Eirelli";
         order.clientDocument = "30617731000141"; order.clientPhone = "32988679585";
-        order.clientEmail = "compras@playart.com.br"; order.payment = "À vista (PIX)";
+        order.clientEmail = "compras@playart.com.br";
+        order.clientAddress = "Praça Getúlio Vargas, 80 - Centro - Ubá/MG";
+        order.payment = "À vista (PIX)";
         order.paymentTerm = "Retirada"; order.freight = "0";
         order.notes = "Produção conforme medidas conferidas pelo cliente.";
         Store.Group group = new Store.Group();
@@ -83,6 +85,7 @@ class OrderTest {
             assertEquals(1, document.getNumberOfPages());
             String text = new PDFTextStripper().getText(document);
             assertTrue(text.contains("PLAYART Digital Material Publicitário Eirelli"));
+            assertTrue(text.contains("Praça Getúlio Vargas, 80 - Centro - Ubá/MG"));
             assertTrue(text.contains("Pré Cortado MDF CRU"));
             assertTrue(text.contains("80 peças"));
             assertTrue(text.contains("INFORMAÇÕES COMERCIAIS"));
@@ -98,7 +101,8 @@ class OrderTest {
         Store.Order order = new Store.Order();
         order.number = 1; order.date = "2026-11-10"; order.clientName = "Cliente Minastex";
         order.clientDocument = "30617731000141"; order.clientPhone = "32988679585";
-        order.clientEmail = "compras@cliente.com.br"; order.includeBank = true;
+        order.clientEmail = "compras@cliente.com.br";
+        order.clientAddress = "Rua de teste, 123 - Centro"; order.includeBank = true;
         order.bankText = "Banco Teste | PIX abc123";
         Store.Group group = new Store.Group(); group.materialName = "Branco Gelo MTX";
         group.price = new BigDecimal("12.94");
@@ -120,6 +124,7 @@ class OrderTest {
             assertTrue(text.contains("30.617.731/0001-41"));
             assertTrue(text.contains("(32) 98867-9585"));
             assertTrue(text.contains("compras@cliente.com.br"));
+            assertTrue(text.contains("Rua de teste, 123 - Centro"));
             assertTrue(text.contains("ITENS DO PEDIDO"));
             assertTrue(text.contains("INFORMAÇÕES COMERCIAIS"));
             assertTrue(text.contains("Banco Teste"));
