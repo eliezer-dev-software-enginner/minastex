@@ -85,7 +85,7 @@ class OrderTest {
             assertTrue(text.contains("PLAYART Digital Material Publicitário Eirelli"));
             assertTrue(text.contains("Pré Cortado MDF CRU"));
             assertTrue(text.contains("80 peças"));
-            assertTrue(text.contains("CONDIÇÕES COMERCIAIS"));
+            assertTrue(text.contains("INFORMAÇÕES COMERCIAIS"));
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
                     Path.of("build/reports/pdf-preview/order-branded-page-1.png").toFile());
         }
@@ -121,7 +121,7 @@ class OrderTest {
             assertTrue(text.contains("(32) 98867-9585"));
             assertTrue(text.contains("compras@cliente.com.br"));
             assertTrue(text.contains("ITENS DO PEDIDO"));
-            assertTrue(text.contains("CONDIÇÕES COMERCIAIS"));
+            assertTrue(text.contains("INFORMAÇÕES COMERCIAIS"));
             assertTrue(text.contains("Banco Teste"));
             Path preview = Path.of("build/reports/pdf-preview/order-page-1.png");
             Files.createDirectories(preview.getParent());

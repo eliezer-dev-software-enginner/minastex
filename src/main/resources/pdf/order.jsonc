@@ -14,7 +14,7 @@
             "maxWidth": 195, "maxHeight": 76, "spacingAfter": 0 }
         ]},
         { "weight": 2, "body": [
-          { "type": "TEXT", "value": "${order.label}", "fontSize": 20, "bold": true,
+          { "type": "TEXT", "value": "${order.label}", "fontSize": 16, "bold": true,
             "align": "RIGHT", "color": "#1F4E89", "spacingAfter": 5 },
           { "type": "TEXT", "value": "${order.number}", "fontSize": 9, "bold": true,
             "align": "RIGHT", "color": "#1F4E89", "spacingAfter": 2 },
@@ -92,7 +92,7 @@
         ]}
       ]
     },
-    { "type": "BAND", "value": "CONDIÇÕES COMERCIAIS", "height": 22,
+    { "type": "BAND", "value": "INFORMAÇÕES COMERCIAIS", "height": 22,
       "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 11 },
     {
       "type": "COLUMNS", "gap": 20, "minHeight": 60, "spacingAfter": 10,
