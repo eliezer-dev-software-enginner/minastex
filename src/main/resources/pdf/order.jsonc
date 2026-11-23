@@ -32,26 +32,34 @@
       "color": "#68788C", "spacingAfter": 2 },
     { "type": "TEXT", "value": "${client.name}", "fontSize": 13, "bold": true,
       "color": "#1F4E89", "spacingAfter": 11 },
-    {
-      "type": "COLUMNS", "gap": 22, "minHeight": 48, "spacingAfter": 8,
-      "columns": [
-        { "weight": 3, "body": [
-          { "type": "TEXT", "value": "CPF / CNPJ", "fontSize": 7, "bold": true,
-            "color": "#68788C", "spacingAfter": 2 },
-          { "type": "TEXT", "value": "${client.document}", "fontSize": 9, "bold": true, "spacingAfter": 0 }
-        ]},
-        { "weight": 2, "body": [
-          { "type": "TEXT", "value": "TELEFONE", "fontSize": 7, "bold": true,
-            "color": "#68788C", "spacingAfter": 2 },
-          { "type": "TEXT", "value": "${client.phone}", "fontSize": 9, "bold": true, "spacingAfter": 0 }
-        ]},
-        { "weight": 2, "body": [
-          { "type": "TEXT", "value": "E-MAIL", "fontSize": 7, "bold": true,
-            "color": "#68788C", "spacingAfter": 2 },
-          { "type": "TEXT", "value": "${client.email}", "fontSize": 8, "bold": true, "spacingAfter": 0 }
-        ]}
-      ]
-    },
+    { "type": "IF", "path": "hasClientContacts", "body": [
+      {
+        "type": "COLUMNS", "gap": 22, "minHeight": 48, "spacingAfter": 8,
+        "columns": [
+          { "weight": 3, "body": [
+            { "type": "IF", "path": "client.document", "body": [
+              { "type": "TEXT", "value": "CPF / CNPJ", "fontSize": 7, "bold": true,
+                "color": "#68788C", "spacingAfter": 2 },
+              { "type": "TEXT", "value": "${client.document}", "fontSize": 9, "bold": true, "spacingAfter": 0 }
+            ]}
+          ]},
+          { "weight": 2, "body": [
+            { "type": "IF", "path": "client.phone", "body": [
+              { "type": "TEXT", "value": "TELEFONE", "fontSize": 7, "bold": true,
+                "color": "#68788C", "spacingAfter": 2 },
+              { "type": "TEXT", "value": "${client.phone}", "fontSize": 9, "bold": true, "spacingAfter": 0 }
+            ]}
+          ]},
+          { "weight": 2, "body": [
+            { "type": "IF", "path": "client.email", "body": [
+              { "type": "TEXT", "value": "E-MAIL", "fontSize": 7, "bold": true,
+                "color": "#68788C", "spacingAfter": 2 },
+              { "type": "TEXT", "value": "${client.email}", "fontSize": 8, "bold": true, "spacingAfter": 0 }
+            ]}
+          ]}
+        ]
+      }
+    ]},
     { "type": "IF", "path": "client.address", "body": [
       { "type": "TEXT", "value": "ENDEREÇO", "fontSize": 7, "bold": true,
         "color": "#68788C", "spacingAfter": 2 },
@@ -98,34 +106,42 @@
         ]}
       ]
     },
-    { "type": "BAND", "value": "INFORMAÇÕES COMERCIAIS", "height": 22,
-      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 11 },
-    {
-      "type": "COLUMNS", "gap": 20, "minHeight": 60, "spacingAfter": 10,
-      "columns": [
-        { "weight": 1, "body": [
-          { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
-          { "type": "TEXT", "value": "FORMA DE PAGAMENTO", "fontSize": 7, "bold": true,
-            "color": "#68788C", "spacingAfter": 2 },
-          { "type": "TEXT", "value": "${payment}", "fontSize": 10, "bold": true,
-            "color": "#1F4E89", "spacingAfter": 0 }
-        ]},
-        { "weight": 1, "body": [
-          { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
-          { "type": "TEXT", "value": "FRETE", "fontSize": 7, "bold": true,
-            "color": "#68788C", "spacingAfter": 2 },
-          { "type": "TEXT", "value": "${frete}", "fontSize": 10, "bold": true,
-            "color": "#1F4E89", "spacingAfter": 0 }
-        ]},
-        { "weight": 1, "body": [
-          { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
-          { "type": "TEXT", "value": "PRAZO", "fontSize": 7, "bold": true,
-            "color": "#68788C", "spacingAfter": 2 },
-          { "type": "TEXT", "value": "${prazo}", "fontSize": 10, "bold": true,
-            "color": "#1F4E89", "spacingAfter": 0 }
-        ]}
-      ]
-    },
+    { "type": "IF", "path": "hasCommercialInfo", "body": [
+      { "type": "BAND", "value": "INFORMAÇÕES COMERCIAIS", "height": 22,
+        "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 11 },
+      {
+        "type": "COLUMNS", "gap": 20, "minHeight": 60, "spacingAfter": 10,
+        "columns": [
+          { "weight": 1, "body": [
+            { "type": "IF", "path": "payment", "body": [
+              { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
+              { "type": "TEXT", "value": "FORMA DE PAGAMENTO", "fontSize": 7, "bold": true,
+                "color": "#68788C", "spacingAfter": 2 },
+              { "type": "TEXT", "value": "${payment}", "fontSize": 10, "bold": true,
+                "color": "#1F4E89", "spacingAfter": 0 }
+            ]}
+          ]},
+          { "weight": 1, "body": [
+            { "type": "IF", "path": "frete", "body": [
+              { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
+              { "type": "TEXT", "value": "FRETE", "fontSize": 7, "bold": true,
+                "color": "#68788C", "spacingAfter": 2 },
+              { "type": "TEXT", "value": "${frete}", "fontSize": 10, "bold": true,
+                "color": "#1F4E89", "spacingAfter": 0 }
+            ]}
+          ]},
+          { "weight": 1, "body": [
+            { "type": "IF", "path": "prazo", "body": [
+              { "type": "LINE", "width": 2, "color": "#9ECD85", "spacingAfter": 12 },
+              { "type": "TEXT", "value": "PRAZO", "fontSize": 7, "bold": true,
+                "color": "#68788C", "spacingAfter": 2 },
+              { "type": "TEXT", "value": "${prazo}", "fontSize": 10, "bold": true,
+                "color": "#1F4E89", "spacingAfter": 0 }
+            ]}
+          ]}
+        ]
+      }
+    ]},
     { "type": "IF", "path": "pickup", "body": [
       { "type": "TEXT", "value": "Retirada: ${pickup}", "fontSize": 8, "spacingAfter": 4 }
     ]},

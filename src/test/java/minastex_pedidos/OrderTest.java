@@ -94,6 +94,72 @@ class OrderTest {
         }
     }
 
+    @Test void omitsEveryEmptyOptionalBlock() throws Exception {
+        Store store = new Store(directory.resolve("minimal-data.json"));
+        Store.Order order = new Store.Order();
+        order.number = 2; order.date = "2026-11-23"; order.clientName = "Cliente sem complementos";
+        Store.Group group = new Store.Group();
+        group.materialName = "MDF Branco"; group.price = new BigDecimal("10.00");
+        Store.Item item = new Store.Item();
+        item.length = BigDecimal.ONE; item.width = BigDecimal.ONE; item.quantity = 1;
+        group.items.add(item); order.groups.add(group);
+        Path pdf = Path.of("build/reports/pdf-preview/order-without-optionals.pdf");
+        Files.createDirectories(pdf.getParent());
+
+        OrderPdf.write(order, store.data.company, pdf);
+
+        try (PDDocument document = PDDocument.load(pdf.toFile())) {
+            assertEquals(1, document.getNumberOfPages());
+            String text = new PDFTextStripper().getText(document);
+            assertAll(
+                    () -> assertFalse(text.contains("CPF / CNPJ")),
+                    () -> assertFalse(text.contains("TELEFONE")),
+                    () -> assertFalse(text.contains("E-MAIL")),
+                    () -> assertFalse(text.contains("ENDEREÇO")),
+                    () -> assertFalse(text.contains("OBSERVAÇÕES")),
+                    () -> assertFalse(text.contains("INFORMAÇÕES COMERCIAIS")),
+                    () -> assertFalse(text.contains("FORMA DE PAGAMENTO")),
+                    () -> assertFalse(text.contains("FRETE")),
+                    () -> assertFalse(text.contains("PRAZO")),
+                    () -> assertFalse(text.contains("DADOS BANCÁRIOS")));
+            ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
+                    Path.of("build/reports/pdf-preview/order-without-optionals-page-1.png").toFile());
+        }
+    }
+
+    @Test void exportsExactlyTwentyItemsAcrossPages() throws Exception {
+        Store store = new Store(directory.resolve("twenty-items-data.json"));
+        Store.Order order = new Store.Order();
+        order.number = 20; order.date = "2026-11-23"; order.clientName = "Cliente vinte itens";
+        for (int index = 1; index <= 20; index++) {
+            Store.Group group = new Store.Group();
+            group.materialName = "Painel " + String.format("%02d", index);
+            group.price = new BigDecimal("12.50");
+            Store.Item item = new Store.Item();
+            item.length = new BigDecimal("1." + String.format("%02d", index));
+            item.width = new BigDecimal("0.50"); item.quantity = index;
+            group.items.add(item); order.groups.add(group);
+        }
+        Path pdf = Path.of("build/reports/pdf-preview/order-20-items.pdf");
+        Files.createDirectories(pdf.getParent());
+
+        OrderPdf.write(order, store.data.company, pdf);
+
+        try (PDDocument document = PDDocument.load(pdf.toFile())) {
+            assertTrue(document.getNumberOfPages() > 1);
+            String text = new PDFTextStripper().getText(document);
+            assertEquals(20, text.split("Painel ", -1).length - 1);
+            assertTrue(text.contains("Painel 01"));
+            assertTrue(text.contains("Painel 20"));
+            assertEquals(document.getNumberOfPages(), text.split("Nº 20", -1).length - 1);
+            PDFRenderer renderer = new PDFRenderer(document);
+            for (int page = 0; page < document.getNumberOfPages(); page++) {
+                ImageIO.write(renderer.renderImageWithDPI(page, 144), "png",
+                        Path.of("build/reports/pdf-preview/order-20-items-page-" + (page + 1) + ".png").toFile());
+            }
+        }
+    }
+
     @Test void exportsPagedPdfWithOptionalBankDetails() throws Exception {
         Store store = new Store(directory.resolve("data.json"));
         store.data.company.legalName = "MINASTEX IND. DE CORTE E PAINEIS LTDA";
@@ -126,7 +192,7 @@ class OrderTest {
             assertTrue(text.contains("compras@cliente.com.br"));
             assertTrue(text.contains("Rua de teste, 123 - Centro"));
             assertTrue(text.contains("ITENS DO PEDIDO"));
-            assertTrue(text.contains("INFORMAÇÕES COMERCIAIS"));
+            assertFalse(text.contains("INFORMAÇÕES COMERCIAIS"));
             assertTrue(text.contains("Banco Teste"));
             Path preview = Path.of("build/reports/pdf-preview/order-page-1.png");
             Files.createDirectories(preview.getParent());

@@ -29,14 +29,19 @@ preço unitário da peça e total.
 
 Nome, CPF/CNPJ, telefone, e-mail e endereço do cliente são copiados para o pedido
 quando ele é salvo. Esse snapshot evita que uma edição futura do cadastro altere um documento
-comercial histórico. Pedidos antigos continuam compatíveis e exibem em branco os
-campos de contato que ainda não existiam.
+comercial histórico. Pedidos antigos continuam compatíveis e simplesmente omitem
+os campos de contato que ainda não existiam.
+
+Documento, telefone, e-mail, endereço, observações, forma de pagamento, frete e
+prazo são blocos opcionais: o PDF não renderiza o respectivo rótulo nem reserva
+sua área quando o valor está vazio.
 
 ## Validação
 
 `OrderTest` gera um pedido comercial de uma página para revisão visual e outro de
 várias páginas. Ele verifica cabeçalho repetido, data extensa em português, contatos
-formatados, seções comerciais, paginação e dados bancários opcionais. Os artefatos
+formatados, ausência integral dos blocos opcionais vazios, um cenário com exatamente
+20 itens, seções comerciais, paginação e dados bancários opcionais. Os artefatos
 de diagnóstico ficam em `build/reports/pdf-preview/` e não são versionados.
 
 `DataPdfTest`, em `pack-utilities`, testa o motor isoladamente com JSONC, repetição,

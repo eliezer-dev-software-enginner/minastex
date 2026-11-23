@@ -55,6 +55,8 @@ final class OrderPdf {
                 "email", value(order.clientEmail),
                 "address", value(order.clientAddress)
         ));
+        data.put("hasClientContacts", !value(order.clientDocument).isBlank()
+                || !value(order.clientPhone).isBlank() || !value(order.clientEmail).isBlank());
         data.put("items", items(order));
         data.put("subtotal", Money.money(Store.subtotal(order)));
         data.put("ipiLabel", "IPI (" + order.ipiPercent.toPlainString() + "%)");
@@ -62,8 +64,11 @@ final class OrderPdf {
         data.put("total", Money.money(Store.total(order)));
         data.put("peso", value(order.weight));
         data.put("payment", value(order.payment));
-        data.put("frete", CurrencyPack.toBRLCurrency(CurrencyPack.deCentavosParaReal(order.freight)));
+        data.put("frete", value(order.freight).isBlank() ? ""
+                : CurrencyPack.toBRLCurrency(CurrencyPack.deCentavosParaReal(order.freight)));
         data.put("prazo", value(order.paymentTerm));
+        data.put("hasCommercialInfo", !value(order.payment).isBlank()
+                || !value(order.freight).isBlank() || !value(order.paymentTerm).isBlank());
         data.put("pickup", value(order.pickupDate));
         data.put("notes", value(order.notes));
         data.put("showBank", order.includeBank && !order.bankText.isBlank());
