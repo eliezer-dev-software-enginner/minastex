@@ -7,15 +7,15 @@
   },
   "pageHeader": [
     {
-      "type": "COLUMNS", "gap": 22, "minHeight": 68, "spacingAfter": 5,
+      "type": "COLUMNS", "gap": 26, "minHeight": 84, "spacingAfter": 7,
       "columns": [
         { "weight": 3, "body": [
           { "type": "IMAGE", "path": "${company.logo}", "fallbackResource": "/assets/minastex-logo.png",
-            "maxWidth": 155, "maxHeight": 58, "spacingAfter": 0 }
+            "maxWidth": 195, "maxHeight": 76, "spacingAfter": 0 }
         ]},
         { "weight": 2, "body": [
-          { "type": "TEXT", "value": "${order.label}", "fontSize": 18, "bold": true,
-            "align": "RIGHT", "color": "#1F4E89", "spacingAfter": 3 },
+          { "type": "TEXT", "value": "${order.label}", "fontSize": 20, "bold": true,
+            "align": "RIGHT", "color": "#1F4E89", "spacingAfter": 5 },
           { "type": "TEXT", "value": "${order.number}", "fontSize": 9, "bold": true,
             "align": "RIGHT", "color": "#1F4E89", "spacingAfter": 2 },
           { "type": "TEXT", "value": "${order.date}", "fontSize": 8,
@@ -23,17 +23,17 @@
         ]}
       ]
     },
-    { "type": "LINE", "width": 2, "color": "#1F4E89", "spacingAfter": 12 }
+    { "type": "LINE", "width": 2, "color": "#1F4E89", "spacingAfter": 16 }
   ],
   "body": [
     { "type": "BAND", "value": "DADOS DO CLIENTE", "height": 22,
-      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 8 },
+      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 11 },
     { "type": "TEXT", "value": "CLIENTE", "fontSize": 7, "bold": true,
       "color": "#68788C", "spacingAfter": 2 },
     { "type": "TEXT", "value": "${client.name}", "fontSize": 13, "bold": true,
-      "color": "#1F4E89", "spacingAfter": 7 },
+      "color": "#1F4E89", "spacingAfter": 11 },
     {
-      "type": "COLUMNS", "gap": 18, "minHeight": 43, "spacingAfter": 7,
+      "type": "COLUMNS", "gap": 22, "minHeight": 48, "spacingAfter": 12,
       "columns": [
         { "weight": 3, "body": [
           { "type": "TEXT", "value": "CPF / CNPJ", "fontSize": 7, "bold": true,
@@ -56,7 +56,7 @@
       "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 0 },
     {
       "type": "TABLE", "rowsPath": "items", "fontSize": 8.5, "headerFontSize": 8,
-      "rowHeight": 27, "cellPadding": 6, "spacingAfter": 9,
+      "rowHeight": 29, "cellPadding": 7, "spacingAfter": 15,
       "headerBackgroundColor": "#245A9B", "headerTextColor": "#FFFFFF",
       "textColor": "#263445", "alternateRowColor": "#F3F6FA",
       "borderColor": "#D7DFE9", "borderWidth": 0.45,
@@ -68,7 +68,7 @@
       ]
     },
     {
-      "type": "COLUMNS", "gap": 14, "minHeight": 70, "spacingAfter": 8,
+      "type": "COLUMNS", "gap": 18, "minHeight": 78, "spacingAfter": 15,
       "columns": [
         { "weight": 3, "body": [
           { "type": "IF", "path": "notes", "body": [
@@ -93,9 +93,9 @@
       ]
     },
     { "type": "BAND", "value": "CONDIÇÕES COMERCIAIS", "height": 22,
-      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 8 },
+      "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 9, "bold": true, "spacingAfter": 11 },
     {
-      "type": "COLUMNS", "gap": 15, "minHeight": 52, "spacingAfter": 7,
+      "type": "COLUMNS", "gap": 20, "minHeight": 60, "spacingAfter": 10,
       "columns": [
         { "weight": 1, "body": [
           { "type": "LINE", "width": 2, "color": "#E3B421", "spacingAfter": 12 },
