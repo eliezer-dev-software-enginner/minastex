@@ -96,38 +96,59 @@ class OrderTest {
         }
     }
 
-    @Test void exportsCompleteOrderTotalWithoutEllipsis() throws Exception {
-        Store store = new Store(directory.resolve("large-total-data.json"));
+    @Test void exportsBeatrizReferenceOrderWithCompleteTotal() throws Exception {
+        Store store = new Store(directory.resolve("beatriz-reference-data.json"));
+        store.data.company.legalName = "MINASTEX IND. DE CORTE E PAINEIS LTDA";
+        store.data.company.document = "06340287000185";
+        store.data.company.address = "AVENIDA LUIZ PARMA SOBRINHO, 165. BARRA DO EMBOQUE - UBÁ";
         Store.Order order = new Store.Order();
         order.number = 3;
         order.date = "2026-11-24";
-        order.clientName = "Cliente de total elevado";
+        order.clientName = "Beatriz Indústria E Comércio de Madeiras Ltda";
+        order.clientDocument = "81822546000120";
+        order.clientPhone = "4735451722";
+        order.clientEmail = "nfe@beatrizmadeiras.com.br";
+        order.clientAddress = "Rodovia BR-470, km 172,3, nº 8250 - Vila Adelaide";
+        order.payment = "Boleto";
         Store.Group group = new Store.Group();
-        group.materialName = "MDF";
-        group.price = new BigDecimal("173252.31");
-        Store.Item item = new Store.Item();
-        item.length = BigDecimal.ONE;
-        item.width = BigDecimal.ONE;
-        item.quantity = 1;
-        group.items.add(item);
+        group.materialName = "Branco Opaline";
+        group.price = new BigDecimal("13.85");
+        group.items.add(referenceItem("2.130", "0.630", 1200));
+        group.items.add(referenceItem("2.130", "0.730", 2160));
+        group.items.add(referenceItem("2.130", "0.830", 2400));
+        group.items.add(referenceItem("2.130", "0.930", 1200));
+        group.items.add(referenceItem("2.130", "1.030", 240));
         order.groups.add(group);
-        order.ipiPercent = BigDecimal.ZERO;
-        Path pdf = Path.of("build/reports/pdf-preview/order-large-total.pdf");
+        order.ipiPercent = new BigDecimal("3.25");
+        Path pdf = Path.of("build/reports/pdf-preview/order-beatriz-reference.pdf");
         Files.createDirectories(pdf.getParent());
 
         OrderPdf.write(order, store.data.company, pdf);
 
+        assertEquals(new BigDecimal("167798.85"), Store.subtotal(order));
+        assertEquals(new BigDecimal("5453.46"), Store.ipi(order));
+        assertEquals(new BigDecimal("173252.31"), Store.total(order));
         try (PDDocument document = PDDocument.load(pdf.toFile())) {
+            assertEquals(1, document.getNumberOfPages());
             String text = new PDFTextStripper().getText(document);
-            assertTrue(text.contains("TOTAL DO PEDIDO"));
-            try (var template = OrderTest.class.getResourceAsStream("/pdf/order.jsonc")) {
-                assertNotNull(template);
-                assertTrue(new String(template.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8)
-                        .contains("\"fitMode\": \"SHRINK\""));
-            }
+            assertAll(
+                    () -> assertTrue(text.contains("Beatriz Indústria E Comércio de Madeiras Ltda")),
+                    () -> assertTrue(text.contains("81.822.546/0001-20")),
+                    () -> assertTrue(text.contains("Branco Opaline · 2.130 × 0.630 m")),
+                    () -> assertTrue(text.contains("Branco Opaline · 2.130 × 1.030 m")),
+                    () -> assertTrue(text.contains("TOTAL DO PEDIDO")),
+                    () -> assertTrue(text.contains("Boleto")));
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
-                    Path.of("build/reports/pdf-preview/order-large-total-page-1.png").toFile());
+                    Path.of("build/reports/pdf-preview/order-beatriz-reference-page-1.png").toFile());
         }
+    }
+
+    private static Store.Item referenceItem(String length, String width, int quantity) {
+        Store.Item item = new Store.Item();
+        item.length = new BigDecimal(length);
+        item.width = new BigDecimal(width);
+        item.quantity = quantity;
+        return item;
     }
 
     @Test void omitsEveryEmptyOptionalBlock() throws Exception {

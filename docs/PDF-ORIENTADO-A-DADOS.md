@@ -51,8 +51,10 @@ sua área quando o valor está vazio.
 ## Validação
 
 `OrderTest` gera um pedido comercial de uma página para revisão visual e outro de
-várias páginas. Ele verifica cabeçalho repetido, data extensa em português, contatos
-formatados, total elevado sem reticências, ausência integral dos blocos opcionais
+várias páginas. A regressão do total reproduz os dados do pedido Beatriz fornecido
+em 24/11/2026: cinco medidas, quantidades, preço de R$ 13,85/m², subtotal de
+R$ 167.798,85, IPI de R$ 5.453,46 e total de R$ 173.252,31. O teste também verifica
+cabeçalho repetido, data extensa em português, contatos formatados, ausência integral dos blocos opcionais
 vazios, um cenário com exatamente 20 itens, seções comerciais, paginação e dados
 bancários opcionais. Os artefatos
 de diagnóstico ficam em `build/reports/pdf-preview/` e não são versionados.
