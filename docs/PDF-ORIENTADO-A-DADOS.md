@@ -24,7 +24,7 @@ motor não recebe classes Minastex, o que permite reutilizá-la em outros projet
 ## Identidade do pedido
 
 O layout segue a referência comercial real fornecida pela Minastex: `PEDIDO` e
-número ficam no topo esquerdo; os dados cadastrais são alinhados à base dessa
+número ficam à esquerda, centralizados aproximadamente na altura da logomarca; os dados cadastrais são alinhados à base dessa
 coluna. Na direita ficam a logomarca e a data, empilhadas nessa ordem. Esse arranjo
 equilibra o cabeçalho e evita uma área vazia sob os dados cadastrais; abaixo ficam blocos azuis para cliente, itens e condições
 comerciais, detalhes verdes e total destacado. Os itens de grupos de

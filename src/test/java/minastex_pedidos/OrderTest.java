@@ -143,9 +143,10 @@ class OrderTest {
                 String jsonc = new String(template.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
                 int label = jsonc.indexOf("\"value\": \"${order.label}\"");
                 int number = jsonc.indexOf("\"value\": \"${order.number}\"");
-                int spacer = jsonc.indexOf("\"type\": \"SPACER\"");
+                int spacerBefore = jsonc.indexOf("\"type\": \"SPACER\"");
+                int spacerAfter = jsonc.indexOf("\"type\": \"SPACER\"", spacerBefore + 1);
                 int company = jsonc.indexOf("\"path\": \"company.hasLegal\"");
-                assertTrue(label < number && number < spacer && spacer < company);
+                assertTrue(spacerBefore < label && label < number && number < spacerAfter && spacerAfter < company);
             }
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
                     Path.of("build/reports/pdf-preview/order-beatriz-reference-page-1.png").toFile());
