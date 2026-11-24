@@ -23,9 +23,10 @@ motor não recebe classes Minastex, o que permite reutilizá-la em outros projet
 
 ## Identidade do pedido
 
-O layout segue a referência comercial real fornecida pela Minastex: logomarca à
-esquerda, `PEDIDO`, número e data à direita, blocos azuis para cliente, itens e
-condições comerciais, detalhes verdes e total destacado. Os itens de grupos de
+O layout segue a referência comercial real fornecida pela Minastex: dados
+cadastrais à esquerda e, na coluna direita, logomarca, `PEDIDO`, número e data
+empilhados nessa ordem; abaixo ficam blocos azuis para cliente, itens e condições
+comerciais, detalhes verdes e total destacado. Os itens de grupos de
 acabamento são achatados em uma única tabela com descrição, dimensões lineares em
 metros, quantidade, metragem total em metros quadrados, preço por metro quadrado e
 total. A coluna `PREÇO/M²` preserva o preço comercial cadastrado no grupo; ela não

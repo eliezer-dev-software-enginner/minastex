@@ -138,6 +138,12 @@ class OrderTest {
                     () -> assertTrue(text.contains("Branco Opaline · 2.130 × 1.030 m")),
                     () -> assertTrue(text.contains("TOTAL DO PEDIDO")),
                     () -> assertTrue(text.contains("Boleto")));
+            try (var template = OrderTest.class.getResourceAsStream("/pdf/order.jsonc")) {
+                assertNotNull(template);
+                String jsonc = new String(template.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+                assertTrue(jsonc.indexOf("\"type\": \"IMAGE\"")
+                        < jsonc.indexOf("\"value\": \"${order.label}\""));
+            }
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
                     Path.of("build/reports/pdf-preview/order-beatriz-reference-page-1.png").toFile());
         }
