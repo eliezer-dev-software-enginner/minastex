@@ -25,7 +25,8 @@ motor não recebe classes Minastex, o que permite reutilizá-la em outros projet
 
 O layout segue a referência comercial real fornecida pela Minastex: dados
 cadastrais à esquerda e, na coluna direita, logomarca, `PEDIDO`, número e data
-empilhados nessa ordem; abaixo ficam blocos azuis para cliente, itens e condições
+empilhados nessa ordem. Os dados cadastrais são alinhados à base da coluna esquerda
+para equilibrar o cabeçalho e evitar uma área vazia sob eles; abaixo ficam blocos azuis para cliente, itens e condições
 comerciais, detalhes verdes e total destacado. Os itens de grupos de
 acabamento são achatados em uma única tabela com descrição, dimensões lineares em
 metros, quantidade, metragem total em metros quadrados, preço por metro quadrado e

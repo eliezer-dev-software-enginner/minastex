@@ -10,6 +10,7 @@
       "type": "COLUMNS", "gap": 26, "minHeight": 187, "spacingAfter": 7,
       "columns": [
         { "weight": 3, "body": [
+          { "type": "SPACER", "height": 128 },
           { "type": "IF", "path": "company.hasLegal", "body": [
             { "type": "TEXT", "value": "${company.legalLine}", "fontSize": 6.5, "bold": true,
               "color": "#1F4E89", "spacingAfter": 2 }
