@@ -141,8 +141,11 @@ class OrderTest {
             try (var template = OrderTest.class.getResourceAsStream("/pdf/order.jsonc")) {
                 assertNotNull(template);
                 String jsonc = new String(template.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-                assertTrue(jsonc.indexOf("\"type\": \"IMAGE\"")
-                        < jsonc.indexOf("\"value\": \"${order.label}\""));
+                int label = jsonc.indexOf("\"value\": \"${order.label}\"");
+                int number = jsonc.indexOf("\"value\": \"${order.number}\"");
+                int spacer = jsonc.indexOf("\"type\": \"SPACER\"");
+                int company = jsonc.indexOf("\"path\": \"company.hasLegal\"");
+                assertTrue(label < number && number < spacer && spacer < company);
             }
             ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
                     Path.of("build/reports/pdf-preview/order-beatriz-reference-page-1.png").toFile());
