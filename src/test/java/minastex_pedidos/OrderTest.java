@@ -96,6 +96,40 @@ class OrderTest {
         }
     }
 
+    @Test void exportsCompleteOrderTotalWithoutEllipsis() throws Exception {
+        Store store = new Store(directory.resolve("large-total-data.json"));
+        Store.Order order = new Store.Order();
+        order.number = 3;
+        order.date = "2026-11-24";
+        order.clientName = "Cliente de total elevado";
+        Store.Group group = new Store.Group();
+        group.materialName = "MDF";
+        group.price = new BigDecimal("173252.31");
+        Store.Item item = new Store.Item();
+        item.length = BigDecimal.ONE;
+        item.width = BigDecimal.ONE;
+        item.quantity = 1;
+        group.items.add(item);
+        order.groups.add(group);
+        order.ipiPercent = BigDecimal.ZERO;
+        Path pdf = Path.of("build/reports/pdf-preview/order-large-total.pdf");
+        Files.createDirectories(pdf.getParent());
+
+        OrderPdf.write(order, store.data.company, pdf);
+
+        try (PDDocument document = PDDocument.load(pdf.toFile())) {
+            String text = new PDFTextStripper().getText(document);
+            assertTrue(text.contains("TOTAL DO PEDIDO"));
+            try (var template = OrderTest.class.getResourceAsStream("/pdf/order.jsonc")) {
+                assertNotNull(template);
+                assertTrue(new String(template.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8)
+                        .contains("\"fitMode\": \"SHRINK\""));
+            }
+            ImageIO.write(new PDFRenderer(document).renderImageWithDPI(0, 144), "png",
+                    Path.of("build/reports/pdf-preview/order-large-total-page-1.png").toFile());
+        }
+    }
+
     @Test void omitsEveryEmptyOptionalBlock() throws Exception {
         Store store = new Store(directory.resolve("minimal-data.json"));
         Store.Order order = new Store.Order();

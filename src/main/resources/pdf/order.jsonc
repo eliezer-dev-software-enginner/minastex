@@ -97,14 +97,14 @@
     {
       "type": "COLUMNS", "gap": 18, "minHeight": 78, "spacingAfter": 15,
       "columns": [
-        { "weight": 3, "body": [
+        { "weight": 1, "body": [
           { "type": "IF", "path": "notes", "body": [
             { "type": "TEXT", "value": "OBSERVAÇÕES", "fontSize": 7, "bold": true,
               "color": "#68788C", "spacingAfter": 2 },
             { "type": "TEXT", "value": "${notes}", "fontSize": 8, "spacingAfter": 0 }
           ]}
         ]},
-        { "weight": 2, "body": [
+        { "weight": 1, "body": [
           { "type": "COLUMNS", "gap": 8, "minHeight": 14, "columns": [
             { "weight": 1, "body": [{ "type": "TEXT", "value": "SUBTOTAL", "fontSize": 8, "bold": true, "align": "RIGHT" }]},
             { "weight": 1, "body": [{ "type": "TEXT", "value": "${subtotal}", "fontSize": 9, "align": "RIGHT" }]}
@@ -115,7 +115,7 @@
           ]},
           { "type": "BAND", "value": "TOTAL DO PEDIDO   ${total}", "height": 25,
             "backgroundColor": "#1F4E89", "color": "#FFFFFF", "fontSize": 10,
-            "bold": true, "align": "RIGHT", "spacingAfter": 0 }
+            "bold": true, "align": "RIGHT", "fitMode": "SHRINK", "spacingAfter": 0 }
         ]}
       ]
     },

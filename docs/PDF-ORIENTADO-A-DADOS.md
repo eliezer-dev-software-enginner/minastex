@@ -34,6 +34,11 @@ total. A coluna `PREÇO/M²` preserva o preço comercial cadastrado no grupo; el
 também apresenta razão social/CNPJ, endereço, telefone e e-mail cadastrados para a
 Minastex; valores ausentes são omitidos.
 
+O resumo financeiro reserva 50% da largura útil para subtotal, IPI e total, de
+modo que valores usuais mantenham a fonte de 10 pt. A faixa `TOTAL DO PEDIDO`
+também usa `fitMode: "SHRINK"` como proteção para valores excepcionalmente longos:
+ela preserva o texto completo e nunca o substitui por reticências.
+
 Nome, CPF/CNPJ, telefone, e-mail e endereço do cliente são copiados para o pedido
 quando ele é salvo. Esse snapshot evita que uma edição futura do cadastro altere um documento
 comercial histórico. Pedidos antigos continuam compatíveis e simplesmente omitem
@@ -47,8 +52,9 @@ sua área quando o valor está vazio.
 
 `OrderTest` gera um pedido comercial de uma página para revisão visual e outro de
 várias páginas. Ele verifica cabeçalho repetido, data extensa em português, contatos
-formatados, ausência integral dos blocos opcionais vazios, um cenário com exatamente
-20 itens, seções comerciais, paginação e dados bancários opcionais. Os artefatos
+formatados, total elevado sem reticências, ausência integral dos blocos opcionais
+vazios, um cenário com exatamente 20 itens, seções comerciais, paginação e dados
+bancários opcionais. Os artefatos
 de diagnóstico ficam em `build/reports/pdf-preview/` e não são versionados.
 
 `DataPdfTest`, em `pack-utilities`, testa o motor isoladamente com JSONC, repetição,
